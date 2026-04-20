@@ -1,0 +1,161 @@
+{
+  "BuildID": "bdf1f7d2-d715-44e8-8194-449811cfe791",
+  "Command": "project:deploy",
+  "ProjectID": "74d7ed4ff49645f418147d6fe7d18463",
+  "ProjectStateHash": "b0f896849337f6b2b694dc56dbfce3a9ce921ecc95eb08e60a4fb7cbd89cef86",
+  "StageCompletedAt": 3,
+  "EarliestFatalError": 0,
+  "StartTime": 1776323078362,
+  "EndTime": 1776323123425,
+  "PlaygroundUserID": 31902,
+  "OperatingSystem": "win32",
+  "UnityPackageID": null,
+  "TargetPlatform": "playground",
+  "UnityVersion": "2022.3.62f3",
+  "LunaVersion": "7.1.0",
+  "LogCount": 6,
+  "Logs": [
+    {
+      "LogID": "9d180b5b-c68b-4135-b57b-233d8d621d4e",
+      "Order": 5,
+      "Timestamp": 1776323123798,
+      "Stage": 3,
+      "ErrorType": 3,
+      "ErrorCode": "LP3007",
+      "Description": "You are not using any custom events",
+      "Details": [
+        "You are not using any custom events. It is recommended to use custom events to have a better understanding of the playable."
+      ],
+      "DescriptionValues": [
+        ""
+      ],
+      "DetailsValues": [
+        ""
+      ],
+      "LogCount": 1,
+      "LinePosition": null,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "91144998-f1ee-41c1-b6c5-1cd85875066f",
+      "Order": 5,
+      "Timestamp": 1776323123800,
+      "Stage": 3,
+      "ErrorType": 3,
+      "ErrorCode": "LP3011",
+      "Description": "You are not using any LunaPlaygroundFields attributes.",
+      "Details": [
+        "You are not using any LunaPlaygroundFields attributes, it allows you to configure your playable to different concepts to find the best variation, which can drastically improve playable performance on all ad networks."
+      ],
+      "DescriptionValues": null,
+      "DetailsValues": null,
+      "LogCount": 1,
+      "LinePosition": null,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "88617fb0-5b59-43e4-9c9c-8183e366c4ea",
+      "Order": 0,
+      "Timestamp": 1776323088953,
+      "Stage": 1,
+      "ErrorType": 2,
+      "ErrorCode": "LP1016",
+      "Description": "Extensive usage of ParticleSystem Component",
+      "Details": [
+        "There is extensive usage of the ParticleSystem component.\nExcessive usage of any component can be detrimental to performance on lower and in some cases higher end devices, consider reducing the amount the component is used.\nRecommended count: 10, current count 11."
+      ],
+      "DescriptionValues": [
+        "ParticleSystem"
+      ],
+      "DetailsValues": [
+        "ParticleSystem",
+        "10",
+        "11"
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "854104d8-7acc-4cdd-9ef3-567de05f166c",
+      "Order": 1,
+      "Timestamp": 1776323088953,
+      "Stage": 1,
+      "ErrorType": 1,
+      "ErrorCode": "LP1023",
+      "Description": "Too many files for facebook platform",
+      "Details": [
+        "Too many files for facebook platform in use ($443) only $100 available"
+      ],
+      "DescriptionValues": [],
+      "DetailsValues": [
+        "443",
+        "100"
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "25fb5f28-1b68-4d5b-9d59-ddc725090b19",
+      "Order": 2,
+      "Timestamp": 1776323088963,
+      "Stage": 1,
+      "ErrorType": 0,
+      "ErrorCode": "LP1032",
+      "Description": "Package(s) is not supported in Luna",
+      "Details": [
+        "Currently package(s) com.unity.timeline are not supported in Luna. We recommend you to remove it and workaround it's functionality."
+      ],
+      "DescriptionValues": [
+        "com.unity.timeline (1.7.7)"
+      ],
+      "DetailsValues": [
+        "com.unity.timeline"
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "D:/game/ply/Packages\\manifest.json",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "12846523-77e2-4d8d-be20-9ba328e43341",
+      "Order": 3,
+      "Timestamp": 1776323088965,
+      "Stage": 1,
+      "ErrorType": 3,
+      "ErrorCode": "LP1008",
+      "Description": "There are missing components on Main Camera.",
+      "Details": [
+        "There are missing components on Main Camera."
+      ],
+      "DescriptionValues": [
+        "Main Camera"
+      ],
+      "DetailsValues": [
+        "Main Camera",
+        "Main Camera"
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    }
+  ]
+}
