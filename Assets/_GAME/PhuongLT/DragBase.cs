@@ -5,8 +5,8 @@ namespace LTPHUONG
     public class DragBase : InteractableBase
     {
         
-        [SerializeField] private float minY = -10f;
-        [SerializeField] private float maxY = 7f;
+        [SerializeField] private float minY = -12f;
+        [SerializeField] private float maxY = 12f;
 
         protected Camera MainCamera { get; private set; }
         float clickThreshold = 0.1f;

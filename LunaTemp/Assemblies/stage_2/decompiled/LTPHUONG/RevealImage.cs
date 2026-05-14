@@ -74,6 +74,21 @@ namespace LTPHUONG
 
 		private void Awake()
 		{
+			if (spriteRenderer == null)
+			{
+				Debug.LogError("RevealImage: SpriteRenderer is not assigned!", this);
+				return;
+			}
+			if (revealMaterial == null)
+			{
+				Debug.LogError("RevealImage: Reveal Material is not assigned!", this);
+				return;
+			}
+			if (spriteRenderer.sprite == null)
+			{
+				Debug.LogError("RevealImage: SpriteRenderer has no sprite!", this);
+				return;
+			}
 			totalPixels = textureSize * textureSize;
 			maskTex = new Texture2D(textureSize, textureSize, TextureFormat.RGBA32, false);
 			maskTex.filterMode = FilterMode.Bilinear;
@@ -107,7 +122,7 @@ namespace LTPHUONG
 
 		public void Paint(Vector3 worldPos)
 		{
-			if (isComplete || !paintEnabled)
+			if (isComplete || !paintEnabled || spriteRenderer == null)
 			{
 				return;
 			}

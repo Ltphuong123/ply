@@ -45,7 +45,7 @@ namespace LTPHUONG
 		{
 			for (int i = 0; i < revealImages.Length; i++)
 			{
-				if (revealImages[i] != null)
+				if (revealImages[i] != null && revealImages[i].gameObject.activeInHierarchy)
 				{
 					revealImages[i].Paint(worldPos);
 				}

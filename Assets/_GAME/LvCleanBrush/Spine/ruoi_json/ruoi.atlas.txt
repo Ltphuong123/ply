@@ -1,0 +1,12 @@
+ruoi.png
+size:104,40
+filter:Linear,Linear
+scale:0.8
+ruoi1
+bounds:48,2,34,29
+rotate:90
+ruoi2
+bounds:2,3,44,33
+ruoi3
+bounds:79,7,29,22
+rotate:90

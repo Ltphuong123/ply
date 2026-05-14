@@ -24,8 +24,13 @@ namespace LTPHUONG
 		public int GetNextSortingOrder()
 		{
 			int order = currentSortingOrder;
-			currentSortingOrder++;
+			currentSortingOrder += 2;
 			return order;
+		}
+
+		public int GetCurrentSortingOrder()
+		{
+			return currentSortingOrder;
 		}
 
 		private void ResetSortingOrder()

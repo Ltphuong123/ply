@@ -5,10 +5,10 @@ namespace LTPHUONG
 	public class DragBase : InteractableBase
 	{
 		[SerializeField]
-		private float minY = -10f;
+		private float minY = -12f;
 
 		[SerializeField]
-		private float maxY = 7f;
+		private float maxY = 12f;
 
 		private float clickThreshold = 0.1f;
 

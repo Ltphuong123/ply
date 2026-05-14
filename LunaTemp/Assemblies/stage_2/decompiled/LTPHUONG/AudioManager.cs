@@ -37,7 +37,7 @@ namespace LTPHUONG
 		{
 			if (clip != null && sfxSource != null)
 			{
-				sfxSource.PlayOneShot(clip);
+				sfxSource.PlayOneShot(clip, 0.2f);
 			}
 		}
 
@@ -67,7 +67,7 @@ namespace LTPHUONG
 			if (!(clip == null) && !(bgmSource == null) && (!(bgmSource.clip == clip) || !bgmSource.isPlaying))
 			{
 				bgmSource.clip = clip;
-				bgmSource.volume = 0.3f;
+				bgmSource.volume = 0.2f;
 				bgmSource.Play();
 			}
 		}

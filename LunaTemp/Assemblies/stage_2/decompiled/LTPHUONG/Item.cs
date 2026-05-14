@@ -26,16 +26,16 @@ namespace LTPHUONG
 
 		[Header("Visual")]
 		[SerializeField]
-		private float dragOffsetY = 1f;
+		private GameObject placeParticle;
+
+		[SerializeField]
+		private float dragOffsetY = 0f;
 
 		[SerializeField]
 		private float dropDistance = 1f;
 
 		[SerializeField]
-		protected float bounceIntensity = 1f;
-
-		[SerializeField]
-		private float floatAmplitude = 0.2f;
+		protected float bounceIntensity = 0.5f;
 
 		[SerializeField]
 		private bool enableFloatEffect = true;
@@ -43,14 +43,20 @@ namespace LTPHUONG
 		[SerializeField]
 		protected Vector3 SizeIncrease = new Vector3(1.05f, 1.05f, 1f);
 
-		[SerializeField]
-		private SpriteRenderer dragHighlight;
+		[Header("Events")]
+		public UnityEvent OnDragStarted;
+
+		public UnityEvent OnDragEnded;
+
+		public UnityEvent OnPlacedCorrectly;
 
 		private const float DRAG_FOLLOW_SPEED = 20f;
 
 		private const float REACH_THRESHOLD_SQR = 0.01f;
 
-		private const float FLOAT_DURATION = 3f;
+		private const float FLOAT_DURATION = 4f;
+
+		private float floatAmplitude = 0.08f;
 
 		private const float TWO_PI = 3.14159265f * 2f;
 
@@ -80,7 +86,7 @@ namespace LTPHUONG
 
 		protected Sequence placeSequence;
 
-		public UnityEvent OnPlacedCorrectly;
+		private Placeholder currentHighlightedPlaceholder;
 
 		protected override void Awake()
 		{
@@ -88,17 +94,12 @@ namespace LTPHUONG
 			dropDistanceSqr = dropDistance * dropDistance;
 		}
 
-		private void OnDisable()
-		{
-			isFloating = false;
-		}
-
 		private void Update()
 		{
 			if (isFloating && enableFloatEffect)
 			{
 				Vector3 pos = tf.position;
-				pos.y = floatBasePosition.y + Mathf.Sin((Time.time - floatTimeOffset) / 3f * (3.14159265f * 2f)) * floatAmplitude;
+				pos.y = floatBasePosition.y + Mathf.Sin((Time.time - floatTimeOffset) / 4f * (3.14159265f * 2f)) * floatAmplitude;
 				tf.position = pos;
 			}
 		}
@@ -125,24 +126,21 @@ namespace LTPHUONG
 			BringToFront();
 			isDraggingMoved = true;
 			isFloating = false;
-			if (dragHighlight != null)
-			{
-				dragHighlight.enabled = true;
-			}
 			tf.DORotate(Vector3.zero, 0.2f).SetEase(Ease.OutQuad);
 			tf.localScale = SizeIncrease;
-			if (hasBeenDragged)
+			if (!hasBeenDragged)
 			{
-				return;
-			}
-			hasBeenDragged = true;
-			for (int i = 0; i < spriteRenderers.Length; i++)
-			{
-				if (spriteRenderers[i] != null)
+				hasBeenDragged = true;
+				for (int i = 0; i < spriteRenderers.Length; i++)
 				{
-					spriteRenderers[i].color = Color.white;
+					if (spriteRenderers[i] != null)
+					{
+						spriteRenderers[i].color = Color.white;
+					}
 				}
 			}
+			HighlightAvailablePlaceholder();
+			OnDragStarted?.Invoke();
 		}
 
 		protected override void UpdatePosition(Vector3 targetPosition)
@@ -171,10 +169,8 @@ namespace LTPHUONG
 		{
 			if (!isPlacingAnimation && !base.IsCorrect && isDraggingMoved)
 			{
-				if (dragHighlight != null)
-				{
-					dragHighlight.enabled = false;
-				}
+				ClearHighlightedPlaceholder();
+				OnDragEnded?.Invoke();
 				Placeholder closest = FindClosestAvailablePlaceholder();
 				if (closest != null && CanPlaceInto(closest))
 				{
@@ -200,14 +196,15 @@ namespace LTPHUONG
 			Vector3 squash1 = new Vector3(1f + 0.15f * bounceIntensity, 1f - 0.15f * bounceIntensity, 1f);
 			Vector3 stretch1 = new Vector3(1f - 0.08f * bounceIntensity, 1f + 0.08f * bounceIntensity, 1f);
 			Vector3 squash2 = new Vector3(1f + 0.05f * bounceIntensity, 1f - 0.05f * bounceIntensity, 1f);
-			PlaySfx(correctPlaceSfx);
 			placeSequence = DOTween.Sequence().Append(tf.DOMove(midPos, 0.2f).SetEase(Ease.OutQuad)).Join(tf.DOScale(SizeInit * 1.1f, 0.2f).SetEase(Ease.OutQuad))
 				.Append(tf.DOMove(targetPos, 0.15f).SetEase(Ease.InQuad))
 				.Join(tf.DOScale(SizeInit * 0.9f, 0.15f).SetEase(Ease.InQuad))
 				.Insert(0f, tf.DORotate(placeholder.TF.eulerAngles, 0.35f).SetEase(Ease.InOutQuad))
 				.AppendCallback(delegate
 				{
+					AudioManager.PlaySfxRandomPitch(correctPlaceSfx, 0.5f, 1f, 1f);
 					SetClickOrderAndSortingOrder(minLayer);
+					SpawnPlaceParticle(targetPos);
 					OnPlacedCorrectly?.Invoke();
 				})
 				.Append(tf.DOScale(squash1, 0.08f).SetEase(Ease.OutQuad))
@@ -224,7 +221,7 @@ namespace LTPHUONG
 		private void PlaceIncorrectly()
 		{
 			tf.DOScale(SizeInit, 0.2f).SetEase(Ease.OutQuad);
-			tf.DORotate(new Vector3(0f, 0f, UnityEngine.Random.Range(-45f, 45f)), 0.2f).SetEase(Ease.OutQuad);
+			tf.DORotate(new Vector3(0f, 0f, UnityEngine.Random.Range(-10f, 10f)), 0.2f).SetEase(Ease.OutQuad);
 			SetCorrect(false);
 			if (enableFloatEffect)
 			{
@@ -318,11 +315,50 @@ namespace LTPHUONG
 			}
 		}
 
+		private void SpawnPlaceParticle(Vector3 position)
+		{
+			if (!(placeParticle == null))
+			{
+				GameObject particle = UnityEngine.Object.Instantiate(placeParticle, position, Quaternion.identity);
+				UnityEngine.Object.Destroy(particle, 3f);
+			}
+		}
+
+		private void HighlightAvailablePlaceholder()
+		{
+			if (validPlaceholders == null || validPlaceholders.Length == 0 || ClickController.Instance == null)
+			{
+				return;
+			}
+			int currentOrder = ClickController.Instance.GetCurrentSortingOrder() - 3;
+			for (int i = 0; i < validPlaceholders.Length; i++)
+			{
+				Placeholder p = validPlaceholders[i];
+				if (p != null && !p.IsOccupied && p.gameObject.activeInHierarchy)
+				{
+					currentHighlightedPlaceholder = p;
+					p.ShowHighlight();
+					p.SetSortingOrder(currentOrder);
+					break;
+				}
+			}
+		}
+
+		private void ClearHighlightedPlaceholder()
+		{
+			if (currentHighlightedPlaceholder != null)
+			{
+				currentHighlightedPlaceholder.HideHighlight();
+				currentHighlightedPlaceholder = null;
+			}
+		}
+
 		private void OnDestroy()
 		{
 			isFloating = false;
 			placeSequence?.Kill();
 			tf.DOKill();
+			ClearHighlightedPlaceholder();
 		}
 	}
 }

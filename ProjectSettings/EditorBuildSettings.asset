@@ -32,4 +32,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/1674_lv_draw_eggs/Level1674.unity
     guid: d431ee416ffb13b4899c17d270f9f962
+  - enabled: 1
+    path: Assets/_GAME/LvSortItemInCar/Level937.unity
+    guid: 6401c0b3fce5dcc40a8bd38f499cdc28
+  - enabled: 1
+    path: Assets/_GAME/LvKitchenCapinet/Level819.unity
+    guid: 18d76fe4901df3f4c93867f035dbdb37
+  - enabled: 1
+    path: Assets/_GAME/LvCleanBathroom/Level821.unity
+    guid: f2083d777a744d042957e2db15192f81
   m_configObjects: {}

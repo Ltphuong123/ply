@@ -6,7 +6,7 @@ namespace LTPHUONG
 	public class FadeSprite : MonoBehaviour
 	{
 		[SerializeField]
-		private SpriteRenderer spriteRenderer;
+		private SpriteRenderer[] spriteRenderers;
 
 		[SerializeField]
 		private float fadeDuration = 0.5f;
@@ -14,37 +14,65 @@ namespace LTPHUONG
 		[SerializeField]
 		private float targetAlpha = 1f;
 
-		private Tween fadeTween;
+		private Tween[] fadeTweens;
 
 		private void Awake()
 		{
-			if (spriteRenderer == null)
+			if (spriteRenderers == null || spriteRenderers.Length == 0)
 			{
-				spriteRenderer = GetComponent<SpriteRenderer>();
+				SpriteRenderer sr = GetComponent<SpriteRenderer>();
+				if (sr != null)
+				{
+					spriteRenderers = new SpriteRenderer[1] { sr };
+				}
+			}
+			if (spriteRenderers != null)
+			{
+				fadeTweens = new Tween[spriteRenderers.Length];
 			}
 		}
 
 		public void FadeIn()
 		{
-			if (!(spriteRenderer == null))
+			if (spriteRenderers == null)
 			{
-				fadeTween?.Kill();
-				fadeTween = spriteRenderer.DOFade(targetAlpha, fadeDuration).SetEase(Ease.OutQuad);
+				return;
+			}
+			for (int i = 0; i < spriteRenderers.Length; i++)
+			{
+				if (!(spriteRenderers[i] == null))
+				{
+					fadeTweens[i]?.Kill();
+					fadeTweens[i] = spriteRenderers[i].DOFade(targetAlpha, fadeDuration).SetEase(Ease.OutQuad);
+				}
 			}
 		}
 
 		public void FadeOut()
 		{
-			if (!(spriteRenderer == null))
+			if (spriteRenderers == null)
 			{
-				fadeTween?.Kill();
-				fadeTween = spriteRenderer.DOFade(0f, fadeDuration).SetEase(Ease.OutQuad);
+				return;
+			}
+			for (int i = 0; i < spriteRenderers.Length; i++)
+			{
+				if (!(spriteRenderers[i] == null))
+				{
+					fadeTweens[i]?.Kill();
+					fadeTweens[i] = spriteRenderers[i].DOFade(1f, fadeDuration).SetEase(Ease.OutQuad);
+				}
 			}
 		}
 
 		private void OnDestroy()
 		{
-			fadeTween?.Kill();
+			if (fadeTweens != null)
+			{
+				for (int i = 0; i < fadeTweens.Length; i++)
+				{
+					fadeTweens[i]?.Kill();
+				}
+			}
 		}
 	}
 }

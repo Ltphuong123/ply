@@ -1,22 +1,11 @@
-using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Scripting;
 
 namespace LTPHUONG
 {
 	public class Placeholder : MonoBehaviour
 	{
 		private Transform tf;
-
 		private SpriteRenderer spriteRenderer;
-
-		private Tween blinkTween;
-
-		private float blinkMin = 0f;
-
-		private float blinkMax = 0.8f;
-
-		private float blinkDuration = 1f;
 
 		public bool IsOccupied { get; set; }
 
@@ -41,45 +30,22 @@ namespace LTPHUONG
 			IsOccupied = false;
 		}
 
-		
-		public void StartBlink()
+		public void ShowHighlight()
 		{
-			if (!(spriteRenderer == null))
-			{
-				StopBlinkInternal();
-				Color c = spriteRenderer.color;
-				c.a = blinkMax;
-				spriteRenderer.color = c;
-			}
-		}
-
-		
-		public void StopBlink()
-		{
-			StopBlinkInternal();
 			if (spriteRenderer != null)
-			{
-				spriteRenderer.DOKill();
-				spriteRenderer.DOFade(blinkMin, 0.2f);
-			}
+				spriteRenderer.enabled = true;
 		}
 
-		private void StopBlinkInternal()
+		public void HideHighlight()
 		{
-			if (blinkTween != null)
-			{
-				blinkTween.Kill();
-				blinkTween = null;
-			}
-		}
-
-		private void OnDestroy()
-		{
-			StopBlinkInternal();
 			if (spriteRenderer != null)
-			{
-				spriteRenderer.DOKill();
-			}
+				spriteRenderer.enabled = false;
+		}
+
+		public void SetSortingOrder(int order)
+		{
+			if (spriteRenderer != null)
+				spriteRenderer.sortingOrder = order;
 		}
 	}
 }
