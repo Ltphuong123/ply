@@ -2,7 +2,7 @@
     "version": "7.1.0",
     "projectId": "74d7ed4ff49645f418147d6fe7d18463",
     "applicationID": 26861,
-    "creativeName": "ply118",
+    "creativeName": "121",
     "pgServer": "EU",
     "window": {
         "‐⁙": true
@@ -130,9 +130,10 @@
             ]
         },
         "scenes": [
-            "Assets/_GAME/LvCleanBathroom/Level821.unity"
+            "Assets/_GAME/LvCleanBrush/Level767.unity"
         ],
         "disabledScenes": [
+            "Assets/_GAME/LvCleanBathroom/Level821.unity",
             "Assets/_GAME/LvKitchenCapinet/Level819.unity",
             "Assets/_GAME/LvSortItemInCar/Level937.unity",
             "Assets/_GAME/New Scene.unity"

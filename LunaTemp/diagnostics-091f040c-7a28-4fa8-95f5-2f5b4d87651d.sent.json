@@ -1,0 +1,110 @@
+{
+  "BuildID": "091f040c-7a28-4fa8-95f5-2f5b4d87651d",
+  "Command": "project:deploy",
+  "ProjectID": "74d7ed4ff49645f418147d6fe7d18463",
+  "ProjectStateHash": "05ebfd86c0b31397a799b0a0a310d479df468b1bdfaf5267784c2923b25788d2",
+  "StageCompletedAt": 3,
+  "EarliestFatalError": 0,
+  "StartTime": 1779093074788,
+  "EndTime": 1779093129092,
+  "PlaygroundUserID": 31902,
+  "OperatingSystem": "win32",
+  "UnityPackageID": null,
+  "TargetPlatform": "playground",
+  "UnityVersion": "2022.3.62f3",
+  "LunaVersion": "7.1.0",
+  "LogCount": 4,
+  "Logs": [
+    {
+      "LogID": "b6fe4fbc-a632-4d9a-a81b-dfdf36d81416",
+      "Order": 3,
+      "Timestamp": 1779093129432,
+      "Stage": 3,
+      "ErrorType": 3,
+      "ErrorCode": "LP3007",
+      "Description": "You are not using any custom events",
+      "Details": [
+        "You are not using any custom events. It is recommended to use custom events to have a better understanding of the playable."
+      ],
+      "DescriptionValues": [
+        ""
+      ],
+      "DetailsValues": [
+        ""
+      ],
+      "LogCount": 1,
+      "LinePosition": null,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "c6b29df8-7300-4a65-a651-f893b7e13cac",
+      "Order": 3,
+      "Timestamp": 1779093129433,
+      "Stage": 3,
+      "ErrorType": 3,
+      "ErrorCode": "LP3011",
+      "Description": "You are not using any LunaPlaygroundFields attributes.",
+      "Details": [
+        "You are not using any LunaPlaygroundFields attributes, it allows you to configure your playable to different concepts to find the best variation, which can drastically improve playable performance on all ad networks."
+      ],
+      "DescriptionValues": null,
+      "DetailsValues": null,
+      "LogCount": 1,
+      "LinePosition": null,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "c9a88133-5e0e-4ab3-9e09-ec0b65e566be",
+      "Order": 0,
+      "Timestamp": 1779093084686,
+      "Stage": 1,
+      "ErrorType": 1,
+      "ErrorCode": "LP1023",
+      "Description": "Too many files for facebook platform",
+      "Details": [
+        "Too many files for facebook platform in use ($396) only $100 available"
+      ],
+      "DescriptionValues": [],
+      "DetailsValues": [
+        "396",
+        "100"
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    },
+    {
+      "LogID": "ffafb397-62b9-4ffc-8eaa-270586d0e6a5",
+      "Order": 1,
+      "Timestamp": 1779093084706,
+      "Stage": 1,
+      "ErrorType": 0,
+      "ErrorCode": "LP1032",
+      "Description": "Package(s) is not supported in Luna",
+      "Details": [
+        "Currently package(s) com.unity.timeline are not supported in Luna. We recommend you to remove it and workaround it's functionality."
+      ],
+      "DescriptionValues": [
+        "com.unity.timeline (1.7.7)"
+      ],
+      "DetailsValues": [
+        "com.unity.timeline"
+      ],
+      "LogCount": 1,
+      "LinePosition": 0,
+      "FilePath": "D:/game/ply/Packages\\manifest.json",
+      "ClassName": "",
+      "MemberName": "",
+      "Severity": 0
+    }
+  ]
+}

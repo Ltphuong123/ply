@@ -41,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_GAME/LvCleanBathroom/Level821.unity
     guid: f2083d777a744d042957e2db15192f81
+  - enabled: 1
+    path: Assets/_GAME/LvCleanBrush/Level767.unity
+    guid: 3b7f94e9e0833414e917df7b40ba409a
   m_configObjects: {}

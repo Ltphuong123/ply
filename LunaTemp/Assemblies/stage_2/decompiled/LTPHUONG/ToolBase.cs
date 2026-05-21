@@ -137,6 +137,18 @@ namespace LTPHUONG
 		}
 
 		
+		public void ForceReturn()
+		{
+			moveTween?.Kill();
+			rotationTween?.Kill();
+			isMoving = false;
+			isDraggingMoved = false;
+			hasReachedTarget = false;
+			rotationTween = tf.DORotate(originalRotation, 0.2f).SetEase(Ease.OutQuad);
+			StartMovementWithBounce(inPointPosition, moveToPointDuration, Ease.OutQuad);
+		}
+
+		
 		public void MoveIn()
 		{
 			if (!isMoving)
