@@ -57,7 +57,7 @@ namespace LTPHUONG
             {
                 if (overlapBuffer[i] == null) continue;
                 var food = overlapBuffer[i].GetComponent<CuttingFood>();
-                if (food == null || food.IsCut) continue;
+                if (food == null || food.IsCut || !food.IsOnBoard) continue;
 
                 float sqr = ((Vector2)tf.position - (Vector2)overlapBuffer[i].transform.position).sqrMagnitude;
                 if (sqr < closestSqr) { closestSqr = sqr; closest = food; }

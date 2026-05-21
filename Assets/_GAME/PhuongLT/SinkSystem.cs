@@ -12,6 +12,9 @@ namespace LTPHUONG
         [SerializeField] private GameObject waterSurface;
         [SerializeField] private GameObject waterFlow;
 
+        [Header("Audio")]
+        [SerializeField] private AudioSource waterLoopSource; // AudioSource voi Loop = true, Play On Awake = false
+
         public bool HasWater => waterFilled;
 
         // Mặt nước chỉ tắt khi kéo nắp ra, không tắt khi tắt van
@@ -43,6 +46,7 @@ namespace LTPHUONG
             waterFilled = false;
             waterSurface?.SetActive(false);
             waterFlow?.SetActive(false);
+            waterLoopSource?.Stop();
 
             valve?.ForceOff();
             valve?.Block();
@@ -52,6 +56,7 @@ namespace LTPHUONG
         private void HandleValveOn()
         {
             waterFlow?.SetActive(true);
+            waterLoopSource?.Play();
 
             if (!waterFilled)
             {
@@ -64,6 +69,7 @@ namespace LTPHUONG
         private void HandleValveOff()
         {
             waterFlow?.SetActive(false);
+            waterLoopSource?.Stop();
         }
 
         private void OnDestroy()

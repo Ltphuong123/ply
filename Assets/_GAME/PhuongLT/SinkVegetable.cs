@@ -20,6 +20,10 @@ namespace LTPHUONG
         [SerializeField] private float basketRadius = 1.5f;
         [SerializeField] private AudioClip basketSfx;
 
+        [Header("Clean Effects")]
+        [SerializeField] private AudioClip cleanSfx;
+        [SerializeField] private ParticleSystem cleanParticle;
+
         [Header("In Water")]
         [SerializeField] private float waterScale = 0.7f;
 
@@ -136,6 +140,8 @@ namespace LTPHUONG
                 {
                     if (dirtyObj != null) dirtyObj.SetActive(false);
                     if (cleanObj != null) cleanObj.SetActive(true);
+                    if (cleanSfx != null) AudioManager.PlaySFX(cleanSfx);
+                    if (cleanParticle != null) { cleanParticle.transform.position = tf.position; cleanParticle.Play(); }
                     StartFloat(landPos);
                 });
         }

@@ -5,25 +5,25 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
+  - enabled: 0
     path: Assets/LvPhoneAccesories/l818.unity
     guid: 54af1faec83de83468c2bf8350869814
-  - enabled: 1
+  - enabled: 0
     path: Assets/LvTechnologyCabinetSort/Level670.unity
     guid: a06a226e1846cf349b8c31bc2585b28c
-  - enabled: 1
+  - enabled: 0
     path: Assets/_GAME/LvCleanBathroom/New Scene.unity
     guid: 6c6486e57c90b2e4a8da9414c281a9c8
-  - enabled: 1
+  - enabled: 0
     path: Assets/LvTechnologyCabinetSort/Level670.unity
     guid: a06a226e1846cf349b8c31bc2585b28c
-  - enabled: 1
+  - enabled: 0
     path: Assets/LvTechnologyCabinetSort/Level670 1.unity
     guid: 68455149902b7c042874e557e94661a1
-  - enabled: 1
+  - enabled: 0
     path: Assets/1673-lv-jigsaw-egg-piece/Level1673.unity
     guid: af5f18f1306a72948b2bc89d2aba7385
   - enabled: 1

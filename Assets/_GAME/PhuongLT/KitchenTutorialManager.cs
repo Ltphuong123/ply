@@ -1,0 +1,247 @@
+using UnityEngine;
+
+namespace LTPHUONG
+{
+    public class KitchenTutorialManager : MonoBehaviour
+    {
+        private enum Phase
+        {
+            DrainCap,           // Keo nap cong vao drain
+            Valve,              // Click van nuoc
+            WashVegetables,     // Keo rau vao vung nuoc
+            BasketVegetables,   // Keo rau da sach vao ro
+            PlaceFoodOnBoard,   // Keo CuttingFood len that
+            CutFood,            // Keo dao vao CuttingFood
+            ReturnFood,         // Keo CuttingFood da cat ve dia
+            Done
+        }
+
+        [Header("Tutorial Hand")]
+        [SerializeField] private TutorialHand tutorialHand;
+        [SerializeField] private float idleTimeout = 3f;
+
+        [Header("Step 1 - Drain Cap")]
+        [SerializeField] private SinkDrainCap drainCap;
+        [SerializeField] private Transform drainPoint;
+
+        [Header("Step 2 - Valve")]
+        [SerializeField] private SinkValve valve;
+
+        [Header("Step 3 - Rua Rau")]
+        [SerializeField] private SinkVegetable[] vegetables;
+        [SerializeField] private Transform dropZone;
+
+        [Header("Step 4 - Ro")]
+        [SerializeField] private Transform basketPoint;
+
+        [Header("Step 5 & 7 - Cat Thuc An")]
+        [SerializeField] private CuttingFood[] cuttingFoods;
+        [SerializeField] private Transform boardZone;
+        [SerializeField] private Transform plateZone;
+
+        [Header("Step 6 - Dao")]
+        [SerializeField] private KnifeTool knife;
+
+        private Phase currentPhase = Phase.DrainCap;
+        private float lastActivityTime;
+        private bool wasDragging;
+
+        private void Start()
+        {
+            lastActivityTime = Time.time;
+            ShowCurrentPhase();
+        }
+
+        private void Update()
+        {
+            bool isDragging = ClickController.Instance != null &&
+                              ClickController.Instance.GetCurrentDragging() != null;
+
+            if (!wasDragging && isDragging)
+                tutorialHand?.Stop();
+
+            if (isDragging || Input.GetMouseButtonDown(0))
+                lastActivityTime = Time.time;
+
+            wasDragging = isDragging;
+
+            CheckPhaseCompletion();
+
+            if (currentPhase != Phase.Done && Time.time - lastActivityTime >= idleTimeout)
+                ShowCurrentPhase();
+        }
+
+        private void CheckPhaseCompletion()
+        {
+            switch (currentPhase)
+            {
+                case Phase.DrainCap:
+                    if (drainCap != null && drainCap.IsPlugged) GoToPhase(Phase.Valve);
+                    break;
+                case Phase.Valve:
+                    if (valve != null && valve.IsOn) GoToPhase(Phase.WashVegetables);
+                    break;
+                case Phase.WashVegetables:
+                    if (AllVegetablesWashed()) GoToPhase(Phase.BasketVegetables);
+                    break;
+                case Phase.BasketVegetables:
+                    if (AllVegetablesInBasket()) GoToPhase(Phase.PlaceFoodOnBoard);
+                    break;
+                case Phase.PlaceFoodOnBoard:
+                    if (AllFoodsPlacedOnBoard()) GoToPhase(Phase.CutFood);
+                    break;
+                case Phase.CutFood:
+                    if (AllFoodsCut()) GoToPhase(Phase.ReturnFood);
+                    break;
+                case Phase.ReturnFood:
+                    if (AllFoodsReturned()) GoToPhase(Phase.Done);
+                    break;
+            }
+        }
+
+        private void GoToPhase(Phase phase)
+        {
+            currentPhase = phase;
+            if (phase == Phase.Done)
+            {
+                tutorialHand?.Stop();
+                enabled = false;
+                return;
+            }
+            ShowCurrentPhase();
+        }
+
+        private void ShowCurrentPhase()
+        {
+            if (tutorialHand == null || currentPhase == Phase.Done) return;
+            lastActivityTime = Time.time;
+
+            switch (currentPhase)
+            {
+                case Phase.DrainCap:
+                    if (drainCap != null && drainPoint != null)
+                        tutorialHand.PlayDrag(drainCap.TF, drainPoint);
+                    break;
+
+                case Phase.Valve:
+                    if (valve != null)
+                        tutorialHand.PlayClick(valve.TF);
+                    break;
+
+                case Phase.WashVegetables:
+                    var unwashed = FirstUnwashedVeg();
+                    if (unwashed != null && dropZone != null)
+                        tutorialHand.PlayDrag(unwashed.TF, dropZone);
+                    break;
+
+                case Phase.BasketVegetables:
+                    var notInBasket = FirstVegNotInBasket();
+                    if (notInBasket != null && basketPoint != null)
+                        tutorialHand.PlayDrag(notInBasket.TF, basketPoint);
+                    break;
+
+                case Phase.PlaceFoodOnBoard:
+                    var notOnBoard = FirstFoodOnPlate();
+                    if (notOnBoard != null && boardZone != null)
+                        tutorialHand.PlayDrag(notOnBoard.TF, boardZone);
+                    break;
+
+                case Phase.CutFood:
+                    var foodToCut = FirstFoodOnBoardNotCut();
+                    if (knife != null && foodToCut != null && !knife.IsBlocked())
+                        tutorialHand.PlayDrag(knife.TF, foodToCut.TF);
+                    break;
+
+                case Phase.ReturnFood:
+                    var notReturned = FirstFoodNotReturned();
+                    if (notReturned != null && plateZone != null)
+                        tutorialHand.PlayDrag(notReturned.TF, plateZone);
+                    break;
+            }
+        }
+
+        // --- Kiem tra hoan thanh ---
+
+        private bool AllVegetablesWashed()
+        {
+            if (vegetables == null) return true;
+            foreach (var v in vegetables)
+                if (v != null && !v.IsWashed) return false;
+            return true;
+        }
+
+        private bool AllVegetablesInBasket()
+        {
+            if (vegetables == null) return true;
+            foreach (var v in vegetables)
+                if (v != null && !v.IsInBasket) return false;
+            return true;
+        }
+
+        private bool AllFoodsPlacedOnBoard()
+        {
+            if (cuttingFoods == null) return true;
+            foreach (var f in cuttingFoods)
+                if (f != null && f.State == CuttingFood.FoodState.OnPlate) return false;
+            return true;
+        }
+
+        private bool AllFoodsCut()
+        {
+            if (cuttingFoods == null) return true;
+            foreach (var f in cuttingFoods)
+                if (f != null && !f.IsCut) return false;
+            return true;
+        }
+
+        private bool AllFoodsReturned()
+        {
+            if (cuttingFoods == null) return true;
+            foreach (var f in cuttingFoods)
+                if (f != null && f.State != CuttingFood.FoodState.ReturnedToPlate) return false;
+            return true;
+        }
+
+        // --- Tim phan tu can huong dan tiep theo ---
+
+        private SinkVegetable FirstUnwashedVeg()
+        {
+            if (vegetables == null) return null;
+            foreach (var v in vegetables)
+                if (v != null && !v.IsWashed) return v;
+            return null;
+        }
+
+        private SinkVegetable FirstVegNotInBasket()
+        {
+            if (vegetables == null) return null;
+            foreach (var v in vegetables)
+                if (v != null && v.IsWashed && !v.IsInBasket) return v;
+            return null;
+        }
+
+        private CuttingFood FirstFoodOnPlate()
+        {
+            if (cuttingFoods == null) return null;
+            foreach (var f in cuttingFoods)
+                if (f != null && f.State == CuttingFood.FoodState.OnPlate) return f;
+            return null;
+        }
+
+        private CuttingFood FirstFoodOnBoardNotCut()
+        {
+            if (cuttingFoods == null) return null;
+            foreach (var f in cuttingFoods)
+                if (f != null && f.IsOnBoard && !f.IsCut) return f;
+            return null;
+        }
+
+        private CuttingFood FirstFoodNotReturned()
+        {
+            if (cuttingFoods == null) return null;
+            foreach (var f in cuttingFoods)
+                if (f != null && f.State != CuttingFood.FoodState.ReturnedToPlate) return f;
+            return null;
+        }
+    }
+}

@@ -7,6 +7,7 @@ namespace LTPHUONG
     {
         [SerializeField] private AudioClip valveOnSfx;
         [SerializeField] private AudioClip valveOffSfx;
+        [SerializeField] private float autoOffDelay = 2f;
 
         public bool IsOn { get; private set; }
 
@@ -27,17 +28,29 @@ namespace LTPHUONG
             {
                 if (valveOnSfx != null) AudioManager.PlaySFX(valveOnSfx);
                 OnValveOn?.Invoke();
+                CancelInvoke(nameof(AutoOff));
+                Invoke(nameof(AutoOff), autoOffDelay);
             }
             else
             {
+                CancelInvoke(nameof(AutoOff));
                 if (valveOffSfx != null) AudioManager.PlaySFX(valveOffSfx);
                 OnValveOff?.Invoke();
             }
         }
 
+        private void AutoOff()
+        {
+            if (!IsOn) return;
+            IsOn = false;
+            if (valveOffSfx != null) AudioManager.PlaySFX(valveOffSfx);
+            OnValveOff?.Invoke();
+        }
+
         public void ForceOff()
         {
             if (!IsOn) return;
+            CancelInvoke(nameof(AutoOff));
             IsOn = false;
         }
     }
