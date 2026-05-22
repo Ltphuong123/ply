@@ -142,6 +142,7 @@ namespace LTPHUONG
 		public void EnableEveryInteractionEvent()
 		{
 			enableEveryInteraction = true;
+			ReleaseCurrentDrag();
 			GameState.Instance?.BlockInteract();
 		}
 

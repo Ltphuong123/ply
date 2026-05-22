@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Scripting;
 
 namespace LTPHUONG
 {
@@ -13,8 +15,13 @@ namespace LTPHUONG
             PlaceFoodOnBoard,   // Keo CuttingFood len that
             CutFood,            // Keo dao vao CuttingFood
             ReturnFood,         // Keo CuttingFood da cat ve dia
+            CallToAction,       // Huong dan cuoi - keo toi CTA
             Done
         }
+
+        [Header("Events")]
+        public UnityEvent OnFirstInteraction;
+        public UnityEvent OnEveryInteraction;
 
         [Header("Tutorial Hand")]
         [SerializeField] private TutorialHand tutorialHand;
@@ -42,9 +49,15 @@ namespace LTPHUONG
         [Header("Step 6 - Dao")]
         [SerializeField] private KnifeTool knife;
 
+        [Header("Call To Action")]
+        [SerializeField] private Transform ctaFrom;
+        [SerializeField] private Transform ctaTo;
+
         private Phase currentPhase = Phase.DrainCap;
         private float lastActivityTime;
         private bool wasDragging;
+        private bool hasFirstInteraction;
+        private bool enableEveryInteraction;
 
         private void Start()
         {
@@ -54,6 +67,21 @@ namespace LTPHUONG
 
         private void Update()
         {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (!hasFirstInteraction)
+                {
+                    hasFirstInteraction = true;
+                    OnFirstInteraction?.Invoke();
+                }
+                else if (enableEveryInteraction)
+                {
+                    ReleaseCurrentDrag();
+                    OnEveryInteraction?.Invoke();
+                    return;
+                }
+            }
+
             bool isDragging = ClickController.Instance != null &&
                               ClickController.Instance.GetCurrentDragging() != null;
 
@@ -69,6 +97,28 @@ namespace LTPHUONG
 
             if (currentPhase != Phase.Done && Time.time - lastActivityTime >= idleTimeout)
                 ShowCurrentPhase();
+        }
+
+        [Preserve]
+        public void EnableEveryInteractionEvent()
+        {
+            enableEveryInteraction = true;
+            ReleaseCurrentDrag();
+            GameState.Instance?.BlockInteract();
+        }
+
+        private void ReleaseCurrentDrag()
+        {
+            if (ClickController.Instance == null) return;
+            DragBase dragging = ClickController.Instance.GetCurrentDragging();
+            if (dragging == null) return;
+
+            if (dragging is ToolBase tool)
+                tool.ForceReturn();
+            else
+                dragging.HandleMouseUp(ClickController.Instance.GetMouseWorldPosition());
+
+            ClickController.Instance.SetCurrentDragging(null);
         }
 
         private void CheckPhaseCompletion()
@@ -94,7 +144,7 @@ namespace LTPHUONG
                     if (AllFoodsCut()) GoToPhase(Phase.ReturnFood);
                     break;
                 case Phase.ReturnFood:
-                    if (AllFoodsReturned()) GoToPhase(Phase.Done);
+                    if (AllFoodsReturned()) GoToPhase(Phase.CallToAction);
                     break;
             }
         }
@@ -108,12 +158,24 @@ namespace LTPHUONG
                 enabled = false;
                 return;
             }
+            if (phase == Phase.CallToAction)
+            {
+                ShowCallToAction();
+                return;
+            }
             ShowCurrentPhase();
+        }
+
+        private void ShowCallToAction()
+        {
+            if (ctaFrom != null && ctaTo != null)
+                tutorialHand?.PlayDrag(ctaFrom, ctaTo);
+            EnableEveryInteractionEvent();
         }
 
         private void ShowCurrentPhase()
         {
-            if (tutorialHand == null || currentPhase == Phase.Done) return;
+            if (tutorialHand == null || currentPhase == Phase.Done || currentPhase == Phase.CallToAction) return;
             lastActivityTime = Time.time;
 
             switch (currentPhase)

@@ -44,4 +44,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_GAME/LvCleanBrush/Level767.unity
     guid: 3b7f94e9e0833414e917df7b40ba409a
+  - enabled: 1
+    path: Assets/_GAME/LvMakingFood/Level820.unity
+    guid: 87f015f606d15a74489d8ea1a2819ce8
   m_configObjects: {}

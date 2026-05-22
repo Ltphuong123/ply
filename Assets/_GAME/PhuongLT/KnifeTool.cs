@@ -1,10 +1,15 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace LTPHUONG
 {
     public class KnifeTool : DragBase
     {
+        [Header("Events")]
+        [SerializeField] private UnityEvent onDragStarted;
+        [SerializeField] private UnityEvent onReturnedToOrigin;
+
         [Header("Detection")]
         [SerializeField] private float detectRadius = 1.5f;
 
@@ -36,6 +41,11 @@ namespace LTPHUONG
             originalPosition = tf.position;
             originalRotation = tf.rotation;
             originalScale    = tf.localScale;
+        }
+
+        protected override void OnDragBegin(Vector3 position)
+        {
+            onDragStarted?.Invoke();
         }
 
         protected override void OnDragEnd(Vector3 position)
@@ -101,7 +111,11 @@ namespace LTPHUONG
                 .Append(tf.DOMove(originalPosition, 0.4f).SetEase(Ease.OutQuad))
                 .Join(tf.DORotateQuaternion(originalRotation, 0.35f).SetEase(Ease.OutQuad))
                 .Join(tf.DOScale(originalScale, 0.2f).SetEase(Ease.OutQuad))
-                .OnComplete(() => isCutting = false);
+                .OnComplete(() =>
+                {
+                    isCutting = false;
+                    onReturnedToOrigin?.Invoke();
+                });
         }
 
         private void ReturnToOrigin()
@@ -109,7 +123,8 @@ namespace LTPHUONG
             DOTween.Sequence()
                 .Append(tf.DOMove(originalPosition, 0.35f).SetEase(Ease.OutQuad))
                 .Join(tf.DORotateQuaternion(originalRotation, 0.3f).SetEase(Ease.OutQuad))
-                .Join(tf.DOScale(originalScale, 0.2f).SetEase(Ease.OutQuad));
+                .Join(tf.DOScale(originalScale, 0.2f).SetEase(Ease.OutQuad))
+                .OnComplete(() => onReturnedToOrigin?.Invoke());
         }
 
         public override bool IsBlocked() => isCutting || base.IsBlocked();
