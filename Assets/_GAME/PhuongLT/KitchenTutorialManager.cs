@@ -8,13 +8,11 @@ namespace LTPHUONG
     {
         private enum Phase
         {
-            DrainCap,           // Keo nap cong vao drain
             Valve,              // Click van nuoc
             WashVegetables,     // Keo rau vao vung nuoc
             BasketVegetables,   // Keo rau da sach vao ro
             PlaceFoodOnBoard,   // Keo CuttingFood len that
             CutFood,            // Keo dao vao CuttingFood
-            ReturnFood,         // Keo CuttingFood da cat ve dia
             CallToAction,       // Huong dan cuoi - keo toi CTA
             Done
         }
@@ -27,11 +25,7 @@ namespace LTPHUONG
         [SerializeField] private TutorialHand tutorialHand;
         [SerializeField] private float idleTimeout = 3f;
 
-        [Header("Step 1 - Drain Cap")]
-        [SerializeField] private SinkDrainCap drainCap;
-        [SerializeField] private Transform drainPoint;
-
-        [Header("Step 2 - Valve")]
+        [Header("Step 1 - Valve")]
         [SerializeField] private SinkValve valve;
 
         [Header("Step 3 - Rua Rau")]
@@ -41,10 +35,9 @@ namespace LTPHUONG
         [Header("Step 4 - Ro")]
         [SerializeField] private Transform basketPoint;
 
-        [Header("Step 5 & 7 - Cat Thuc An")]
+        [Header("Step 5 & 6 - Cat Thuc An")]
         [SerializeField] private CuttingFood[] cuttingFoods;
         [SerializeField] private Transform boardZone;
-        [SerializeField] private Transform plateZone;
 
         [Header("Step 6 - Dao")]
         [SerializeField] private KnifeTool knife;
@@ -53,7 +46,7 @@ namespace LTPHUONG
         [SerializeField] private Transform ctaFrom;
         [SerializeField] private Transform ctaTo;
 
-        private Phase currentPhase = Phase.DrainCap;
+        private Phase currentPhase = Phase.Valve;
         private float lastActivityTime;
         private bool wasDragging;
         private bool hasFirstInteraction;
@@ -125,9 +118,6 @@ namespace LTPHUONG
         {
             switch (currentPhase)
             {
-                case Phase.DrainCap:
-                    if (drainCap != null && drainCap.IsPlugged) GoToPhase(Phase.Valve);
-                    break;
                 case Phase.Valve:
                     if (valve != null && valve.IsOn) GoToPhase(Phase.WashVegetables);
                     break;
@@ -141,9 +131,6 @@ namespace LTPHUONG
                     if (AllFoodsPlacedOnBoard()) GoToPhase(Phase.CutFood);
                     break;
                 case Phase.CutFood:
-                    if (AllFoodsCut()) GoToPhase(Phase.ReturnFood);
-                    break;
-                case Phase.ReturnFood:
                     if (AllFoodsReturned()) GoToPhase(Phase.CallToAction);
                     break;
             }
@@ -180,11 +167,6 @@ namespace LTPHUONG
 
             switch (currentPhase)
             {
-                case Phase.DrainCap:
-                    if (drainCap != null && drainPoint != null)
-                        tutorialHand.PlayDrag(drainCap.TF, drainPoint);
-                    break;
-
                 case Phase.Valve:
                     if (valve != null)
                         tutorialHand.PlayClick(valve.TF);
@@ -214,11 +196,6 @@ namespace LTPHUONG
                         tutorialHand.PlayDrag(knife.TF, foodToCut.TF);
                     break;
 
-                case Phase.ReturnFood:
-                    var notReturned = FirstFoodNotReturned();
-                    if (notReturned != null && plateZone != null)
-                        tutorialHand.PlayDrag(notReturned.TF, plateZone);
-                    break;
             }
         }
 
@@ -298,12 +275,5 @@ namespace LTPHUONG
             return null;
         }
 
-        private CuttingFood FirstFoodNotReturned()
-        {
-            if (cuttingFoods == null) return null;
-            foreach (var f in cuttingFoods)
-                if (f != null && f.State != CuttingFood.FoodState.ReturnedToPlate) return f;
-            return null;
-        }
     }
 }

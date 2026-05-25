@@ -15,10 +15,6 @@ namespace LTPHUONG
         [SerializeField] private Transform boardZone;       // tam vung that
         [SerializeField] private float boardRadius = 2f;    // ban kinh de xac dinh "tren that"
 
-        [Header("Plate Zone")]
-        [SerializeField] private Transform plateZone;       // tam vung dia
-        [SerializeField] private float plateZoneRadius = 2f; // ban kinh vung dia
-
         [Header("Effects")]
         [SerializeField] private ParticleSystem cutParticle;
         [SerializeField] private AudioClip placeSfx;
@@ -34,7 +30,7 @@ namespace LTPHUONG
 
         private int totalCuts = 3;
         private bool isReturning;
-        private Vector3 platePosition; // vi tri co dinh tren dia (originalPosition)
+        private Vector3 platePosition;
 
         protected override void Awake()
         {
@@ -43,10 +39,8 @@ namespace LTPHUONG
             RefreshCutState(0);
         }
 
-        // Goi boi KnifeTool truoc khi bat dau sequence de dong bo so nhat
         public void InitCuts(int count) => totalCuts = count;
 
-        // Goi boi KnifeTool sau moi nhat (index 0,1,2,...)
         public void ReceiveCut(int cutIndex, Vector3 cutWorldPos)
         {
             if (IsCut) return;
@@ -59,15 +53,19 @@ namespace LTPHUONG
             {
                 IsCut = true;
                 OnAllCutsDone?.Invoke();
+                // Tu dong quay ve dia sau khi cat xong
+                MoveToPlate(() =>
+                {
+                    State = FoodState.ReturnedToPlate;
+                    OnReturnedToPlate?.Invoke();
+                });
             }
         }
 
         public override bool IsBlocked()
         {
             if (isReturning) return true;
-            // Khi tren that va chua cat xong: chi dao moi duoc tuong tac
-            if (State == FoodState.OnBoard && !IsCut) return true;
-            // Da tra ve dia: khoa luon
+            if (State == FoodState.OnBoard) return true;
             if (State == FoodState.ReturnedToPlate) return true;
             return base.IsBlocked();
         }
@@ -87,17 +85,8 @@ namespace LTPHUONG
 
         protected override void OnDragEnd(Vector3 position)
         {
-            switch (State)
-            {
-                case FoodState.OnPlate:
-                    TryPlaceOnBoard();
-                    break;
-
-                case FoodState.OnBoard:
-                    // Chi vao day khi IsCut == true (IsBlocked chan khi !IsCut)
-                    TryReturnToPlate();
-                    break;
-            }
+            if (State != FoodState.OnPlate) return;
+            TryPlaceOnBoard();
         }
 
         private void TryPlaceOnBoard()
@@ -105,7 +94,6 @@ namespace LTPHUONG
             bool nearBoard = boardZone != null && Vector3.Distance(tf.position, boardZone.position) <= boardRadius;
             if (nearBoard)
             {
-                // Food o nguyen cho tha, khong snap
                 tf.DOScale(Vector3.one, 0.1f).SetEase(Ease.OutQuad);
                 if (placeSfx != null) AudioManager.PlaySFX(placeSfx);
                 State = FoodState.OnBoard;
@@ -113,26 +101,7 @@ namespace LTPHUONG
             }
             else
             {
-                // Tra ve vi tri cu tren dia
                 MoveToPlate(null);
-            }
-        }
-
-        private void TryReturnToPlate()
-        {
-            bool nearPlate = plateZone != null && Vector3.Distance(tf.position, plateZone.position) <= plateZoneRadius;
-            if (nearPlate)
-            {
-                MoveToPlate(() =>
-                {
-                    State = FoodState.ReturnedToPlate;
-                    OnReturnedToPlate?.Invoke();
-                });
-            }
-            else
-            {
-                // O lai tren that, reset scale
-                tf.DOScale(Vector3.one, 0.1f).SetEase(Ease.OutQuad);
             }
         }
 
@@ -141,8 +110,9 @@ namespace LTPHUONG
             isReturning = true;
             tf.DOKill();
             DOTween.Sequence()
-                .Append(tf.DOMove(platePosition, 0.3f).SetEase(Ease.OutQuad))
-                .Join(tf.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutQuad))
+                .AppendInterval(0.5f)
+                .Append(tf.DOMove(platePosition, 0.35f).SetEase(Ease.OutQuad))
+                .Join(tf.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutQuad))
                 .AppendCallback(() => { if (placeSfx != null) AudioManager.PlaySFX(placeSfx); })
                 .OnComplete(() =>
                 {
@@ -184,13 +154,6 @@ namespace LTPHUONG
                 Gizmos.DrawWireSphere(boardZone.position, boardRadius);
             }
 
-            if (plateZone != null)
-            {
-                Gizmos.color = new Color(1f, 0.8f, 0.2f, 0.35f);
-                Gizmos.DrawWireSphere(plateZone.position, plateZoneRadius);
-            }
-
-            // Vi tri rieng cua food tren dia
             Gizmos.color = new Color(1f, 0.4f, 0f, 0.6f);
             Gizmos.DrawSphere(transform.position, 0.1f);
         }
