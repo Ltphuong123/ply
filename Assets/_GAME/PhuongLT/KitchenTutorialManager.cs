@@ -51,6 +51,7 @@ namespace LTPHUONG
         private bool wasDragging;
         private bool hasFirstInteraction;
         private bool enableEveryInteraction;
+        private int currentFoodIndex = 0;
 
         private void Start()
         {
@@ -79,7 +80,11 @@ namespace LTPHUONG
                               ClickController.Instance.GetCurrentDragging() != null;
 
             if (!wasDragging && isDragging)
+            {
                 tutorialHand?.Stop();
+                CancelInvoke(nameof(ShowCurrentPhase));
+                CancelInvoke(nameof(ShowCallToAction));
+            }
 
             if (isDragging || Input.GetMouseButtonDown(0))
                 lastActivityTime = Time.time;
@@ -128,10 +133,19 @@ namespace LTPHUONG
                     if (AllVegetablesInBasket()) GoToPhase(Phase.PlaceFoodOnBoard);
                     break;
                 case Phase.PlaceFoodOnBoard:
-                    if (AllFoodsPlacedOnBoard()) GoToPhase(Phase.CutFood);
+                    if (CurrentFoodOnBoard()) GoToPhase(Phase.CutFood);
                     break;
                 case Phase.CutFood:
-                    if (AllFoodsReturned()) GoToPhase(Phase.CallToAction);
+                    if (CurrentFoodReturned())
+                    {
+                        currentFoodIndex++;
+                        if (currentFoodIndex >= cuttingFoods.Length)
+                        {
+                            if (AllStepsDone()) GoToPhase(Phase.CallToAction);
+                        }
+                        else
+                            GoToPhase(Phase.PlaceFoodOnBoard);
+                    }
                     break;
             }
         }
@@ -139,18 +153,40 @@ namespace LTPHUONG
         private void GoToPhase(Phase phase)
         {
             currentPhase = phase;
+            tutorialHand?.Stop();
+            CancelInvoke(nameof(ShowCurrentPhase));
+            CancelInvoke(nameof(ShowCallToAction));
+
             if (phase == Phase.Done)
             {
-                tutorialHand?.Stop();
                 enabled = false;
                 return;
             }
             if (phase == Phase.CallToAction)
             {
-                ShowCallToAction();
+                Invoke(nameof(ShowCallToAction), 1f);
                 return;
             }
-            ShowCurrentPhase();
+
+            if (phase == Phase.PlaceFoodOnBoard)
+            {
+                var f = CurrentFood();
+                if (f != null && f.State == CuttingFood.FoodState.ReturnedToPlate)
+                {
+                    currentFoodIndex++;
+                    GoToPhase(currentFoodIndex >= (cuttingFoods?.Length ?? 0) && AllStepsDone()
+                        ? Phase.CallToAction
+                        : Phase.PlaceFoodOnBoard);
+                    return;
+                }
+                if (f != null && f.IsOnBoard)
+                {
+                    GoToPhase(Phase.CutFood);
+                    return;
+                }
+            }
+
+            Invoke(nameof(ShowCurrentPhase), 1f);
         }
 
         private void ShowCallToAction()
@@ -185,13 +221,13 @@ namespace LTPHUONG
                     break;
 
                 case Phase.PlaceFoodOnBoard:
-                    var notOnBoard = FirstFoodOnPlate();
-                    if (notOnBoard != null && boardZone != null)
-                        tutorialHand.PlayDrag(notOnBoard.TF, boardZone);
+                    var currentFood = CurrentFood();
+                    if (currentFood != null && boardZone != null)
+                        tutorialHand.PlayDrag(currentFood.TF, boardZone);
                     break;
 
                 case Phase.CutFood:
-                    var foodToCut = FirstFoodOnBoardNotCut();
+                    var foodToCut = CurrentFood();
                     if (knife != null && foodToCut != null && !knife.IsBlocked())
                         tutorialHand.PlayDrag(knife.TF, foodToCut.TF);
                     break;
@@ -217,20 +253,9 @@ namespace LTPHUONG
             return true;
         }
 
-        private bool AllFoodsPlacedOnBoard()
+        private bool AllStepsDone()
         {
-            if (cuttingFoods == null) return true;
-            foreach (var f in cuttingFoods)
-                if (f != null && f.State == CuttingFood.FoodState.OnPlate) return false;
-            return true;
-        }
-
-        private bool AllFoodsCut()
-        {
-            if (cuttingFoods == null) return true;
-            foreach (var f in cuttingFoods)
-                if (f != null && !f.IsCut) return false;
-            return true;
+            return AllVegetablesWashed() && AllVegetablesInBasket() && AllFoodsReturned();
         }
 
         private bool AllFoodsReturned()
@@ -239,6 +264,24 @@ namespace LTPHUONG
             foreach (var f in cuttingFoods)
                 if (f != null && f.State != CuttingFood.FoodState.ReturnedToPlate) return false;
             return true;
+        }
+
+        private CuttingFood CurrentFood()
+        {
+            if (cuttingFoods == null || currentFoodIndex >= cuttingFoods.Length) return null;
+            return cuttingFoods[currentFoodIndex];
+        }
+
+        private bool CurrentFoodOnBoard()
+        {
+            var f = CurrentFood();
+            return f != null && f.IsOnBoard;
+        }
+
+        private bool CurrentFoodReturned()
+        {
+            var f = CurrentFood();
+            return f != null && f.State == CuttingFood.FoodState.ReturnedToPlate;
         }
 
         // --- Tim phan tu can huong dan tiep theo ---
@@ -256,22 +299,6 @@ namespace LTPHUONG
             if (vegetables == null) return null;
             foreach (var v in vegetables)
                 if (v != null && v.IsWashed && !v.IsInBasket) return v;
-            return null;
-        }
-
-        private CuttingFood FirstFoodOnPlate()
-        {
-            if (cuttingFoods == null) return null;
-            foreach (var f in cuttingFoods)
-                if (f != null && f.State == CuttingFood.FoodState.OnPlate) return f;
-            return null;
-        }
-
-        private CuttingFood FirstFoodOnBoardNotCut()
-        {
-            if (cuttingFoods == null) return null;
-            foreach (var f in cuttingFoods)
-                if (f != null && f.IsOnBoard && !f.IsCut) return f;
             return null;
         }
 

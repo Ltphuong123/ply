@@ -30,12 +30,12 @@ namespace LTPHUONG
 
         private int totalCuts = 3;
         private bool isReturning;
-        private Vector3 platePosition;
+        [SerializeField] private Vector3 platePosition;
 
         protected override void Awake()
         {
             base.Awake();
-            platePosition = tf.position;
+            if (platePosition == Vector3.zero) platePosition = tf.position;
             RefreshCutState(0);
         }
 

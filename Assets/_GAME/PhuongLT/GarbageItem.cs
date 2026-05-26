@@ -187,6 +187,20 @@ namespace LTPHUONG
             tf.DORotate(new Vector3(0, 0, Random.Range(-10f, 10f)), 0.2f).SetEase(Ease.OutQuad);
         }
 
+        public void AutoFlyToNearestBin()
+        {
+            if (isFlying || IsTrashed) return;
+            TrashBin bin = TrashBin.FindClosestBin(tf.position);
+            if (bin == null) return;
+            KillTweens();
+            StopShake();
+            isPeeled = true;
+            tf.localScale = originalScale;
+            tf.rotation = originalRotation;
+            BringToFront();
+            FlyToBin(bin);
+        }
+
         private void FlyToBin(TrashBin bin)
         {
             isFlying = true;
