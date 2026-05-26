@@ -7,6 +7,7 @@ namespace LTPHUONG
     public class GarbageGroup : MonoBehaviour
     {
         [SerializeField] private List<GarbageItem> items = new();
+        [SerializeField] private AudioClip completeSfx;
 
         public UnityEvent OnAllTrashed;
 
@@ -26,6 +27,7 @@ namespace LTPHUONG
             if (trashedCount >= items.Count)
             {
                 isCompleted = true;
+                if (completeSfx != null) AudioManager.PlaySFX(completeSfx);
                 OnAllTrashed?.Invoke();
             }
         }

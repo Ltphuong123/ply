@@ -122,11 +122,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &2923524 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4827495209489399673, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
-  m_PrefabInstance: {fileID: 183571545}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7997839
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,7 +271,7 @@ MonoBehaviour:
   isBlocked: 1
   sinkDistance: 30
   sinkDuration: 0.7
-  clickSfx: {fileID: 0}
+  clickSfx: {fileID: 8300000, guid: b013ed3d114cbac438bd5c9ee10b16e1, type: 3}
   OnDisappeared:
     m_PersistentCalls:
       m_Calls: []
@@ -427,7 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tool: {fileID: 383111948}
   warningZones:
-  - {fileID: 0}
+  - {fileID: 759855610}
   OnWrongUsage:
     m_PersistentCalls:
       m_Calls:
@@ -592,7 +587,7 @@ MonoBehaviour:
   isBlocked: 1
   sinkDistance: 30
   sinkDuration: 0.7
-  clickSfx: {fileID: 0}
+  clickSfx: {fileID: 8300000, guid: b013ed3d114cbac438bd5c9ee10b16e1, type: 3}
   OnDisappeared:
     m_PersistentCalls:
       m_Calls: []
@@ -653,12 +648,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2295316299142928959, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2295316299142928959, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2295316299142928959, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2295316299142928959, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.9
+      value: -8.4
       objectReference: {fileID: 0}
     - target: {fileID: 2295316299142928959, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -38.9
+      value: -40.7
       objectReference: {fileID: 0}
     - target: {fileID: 2295316299142928959, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
       propertyPath: m_LocalPosition.z
@@ -758,11 +765,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4827495209489399673, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3467853957296564000, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 613985182}
-    m_AddedComponents: []
+      addedObject: {fileID: 473345286}
   m_SourcePrefab: {fileID: 100100000, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
 --- !u!1 &265022663
 GameObject:
@@ -825,6 +832,7 @@ MonoBehaviour:
   - {fileID: 1464413408}
   - {fileID: 455196143}
   - {fileID: 1327253593}
+  completeSfx: {fileID: 8300000, guid: d17cfd314dde79f458aab10eaba9ea0a, type: 3}
   OnAllTrashed:
     m_PersistentCalls:
       m_Calls:
@@ -1095,7 +1103,7 @@ MonoBehaviour:
   isBlocked: 1
   sinkDistance: 30
   sinkDuration: 0.7
-  clickSfx: {fileID: 0}
+  clickSfx: {fileID: 8300000, guid: b013ed3d114cbac438bd5c9ee10b16e1, type: 3}
   OnDisappeared:
     m_PersistentCalls:
       m_Calls: []
@@ -1501,7 +1509,7 @@ MonoBehaviour:
   isBlocked: 1
   sinkDistance: 30
   sinkDuration: 0.7
-  clickSfx: {fileID: 0}
+  clickSfx: {fileID: 8300000, guid: b013ed3d114cbac438bd5c9ee10b16e1, type: 3}
   OnDisappeared:
     m_PersistentCalls:
       m_Calls: []
@@ -1747,10 +1755,23 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 613985182}
   - {fileID: 759855609}
+  - {fileID: 930171860}
   - {fileID: 1980193382}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &397363799 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1764123840287102796, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
+  m_PrefabInstance: {fileID: 183571545}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f22671f30411ae4aad04e26d1053ede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &415198666
 GameObject:
   m_ObjectHideFlags: 0
@@ -2153,9 +2174,9 @@ MonoBehaviour:
   minY: -12
   maxY: 12
   enablePeel: 1
-  pickSfx: {fileID: 0}
-  peelSnapSfx: {fileID: 0}
-  flyUpSfx: {fileID: 0}
+  pickSfx: {fileID: 8300000, guid: 2864dc539b5f8414188e4d2523d93302, type: 3}
+  peelSnapSfx: {fileID: 8300000, guid: bcaeb0704ac883e42800f87e4c19e739, type: 3}
+  flyUpSfx: {fileID: 8300000, guid: fccd66a1fefbb854199299b515640f02, type: 3}
   dropInBinSfx: {fileID: 0}
   minLayer: 0
   dragOffsetY: 1
@@ -2165,6 +2186,110 @@ MonoBehaviour:
   OnTrashed:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &473345284 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3467853957296564000, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
+  m_PrefabInstance: {fileID: 183571545}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &473345286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473345284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e650134441d39c4fbf1e9ab6fa1e6d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnFirstInteraction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 733696274}
+        m_TargetAssemblyTypeName: LTPHUONG.UIButtonPulse, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 397363799}
+        m_TargetAssemblyTypeName: LTPHUONG.AudioManager, Assembly-CSharp
+        m_MethodName: PlayBGMInstance
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnEveryInteraction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 397363799}
+        m_TargetAssemblyTypeName: LTPHUONG.AudioManager, Assembly-CSharp
+        m_MethodName: StopBGM
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1479589372}
+        m_TargetAssemblyTypeName: LTPHUONG.GameState, Assembly-CSharp
+        m_MethodName: gotoStore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  tutorialHand: {fileID: 915104777}
+  idleTimeout: 3
+  garbageItems:
+  - {fileID: 1483513685}
+  - {fileID: 1746356193}
+  - {fileID: 1982249485}
+  - {fileID: 1618910476}
+  - {fileID: 1292708384}
+  - {fileID: 1464413408}
+  - {fileID: 455196143}
+  - {fileID: 1327253593}
+  trashBinTarget: {fileID: 481940096}
+  revealPen: {fileID: 335749603}
+  revealImage1: {fileID: 931966421}
+  trays:
+  - {fileID: 308617251}
+  - {fileID: 864840429}
+  - {fileID: 1201695071}
+  - {fileID: 523251020}
+  - {fileID: 181712632}
+  - {fileID: 665806591}
+  - {fileID: 1369539683}
+  - {fileID: 496057817}
+  - {fileID: 376025055}
+  - {fileID: 1302978469}
+  - {fileID: 1571088039}
+  - {fileID: 7997843}
+  revealPen2: {fileID: 383111948}
+  revealImage2: {fileID: 1780523238}
+  revealPen3: {fileID: 1180637664}
+  revealImage3: {fileID: 851736081}
+  ctaFrom: {fileID: 1936331834}
+  ctaTo: {fileID: 690355108}
 --- !u!1 &481940095
 GameObject:
   m_ObjectHideFlags: 0
@@ -2196,6 +2321,83 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1258632354}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &495464054
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 930171860}
+    m_Modifications:
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312771128910977050, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4377728238706161283, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_Name
+      value: Sparks (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968536343018374681, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 378a4b5d9279982438f18748af103867, type: 3}
 --- !u!1 &496057813
 GameObject:
   m_ObjectHideFlags: 0
@@ -2345,7 +2547,7 @@ MonoBehaviour:
   isBlocked: 1
   sinkDistance: 30
   sinkDuration: 0.7
-  clickSfx: {fileID: 0}
+  clickSfx: {fileID: 8300000, guid: b013ed3d114cbac438bd5c9ee10b16e1, type: 3}
   OnDisappeared:
     m_PersistentCalls:
       m_Calls: []
@@ -2498,7 +2700,7 @@ MonoBehaviour:
   isBlocked: 1
   sinkDistance: 30
   sinkDuration: 0.7
-  clickSfx: {fileID: 0}
+  clickSfx: {fileID: 8300000, guid: b013ed3d114cbac438bd5c9ee10b16e1, type: 3}
   OnDisappeared:
     m_PersistentCalls:
       m_Calls: []
@@ -2539,7 +2741,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 2923524}
+    m_TransformParent: {fileID: 386047191}
     m_Modifications:
     - target: {fileID: 2050076693601226770, guid: 7c07d6d7ffaa136448775e4adf7c4062, type: 3}
       propertyPath: m_LocalScale.x
@@ -2600,6 +2802,10 @@ PrefabInstance:
     - target: {fileID: 6206532455922419593, guid: 7c07d6d7ffaa136448775e4adf7c4062, type: 3}
       propertyPath: m_Name
       value: Emoji
+      objectReference: {fileID: 0}
+    - target: {fileID: 6507678257089077802, guid: 7c07d6d7ffaa136448775e4adf7c4062, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2771,7 +2977,7 @@ MonoBehaviour:
   isBlocked: 1
   sinkDistance: 30
   sinkDuration: 0.7
-  clickSfx: {fileID: 0}
+  clickSfx: {fileID: 8300000, guid: b013ed3d114cbac438bd5c9ee10b16e1, type: 3}
   OnDisappeared:
     m_PersistentCalls:
       m_Calls: []
@@ -2860,6 +3066,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!4 &699373851 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+  m_PrefabInstance: {fileID: 495464054}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &700029010
 GameObject:
   m_ObjectHideFlags: 0
@@ -3089,7 +3300,7 @@ MonoBehaviour:
   - {fileID: 759855610}
   audioSource: {fileID: 709660065}
   particleObject: {fileID: 0}
-  volume: 0.4
+  volume: 0.2
 --- !u!1 &728936575
 GameObject:
   m_ObjectHideFlags: 0
@@ -3124,6 +3335,17 @@ Transform:
   - {fileID: 1500719141}
   m_Father: {fileID: 141126499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &733696274 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2520142947927505879, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
+  m_PrefabInstance: {fileID: 183571545}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8e9522b2a6aca742b9853500af9fba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &759855608
 GameObject:
   m_ObjectHideFlags: 0
@@ -3402,7 +3624,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 851736082}
   revealMaterial: {fileID: 2100000, guid: 77ebffe8956629b498d1333a572bf96b, type: 2}
   textureSize: 256
-  brushRadius: 15
+  brushRadius: 25
   threshold: 0.85
   eraseMode: 1
   paintEnabled: 0
@@ -3469,6 +3691,30 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 613985181}
+        m_TargetAssemblyTypeName: Satisgame.EmojiControl, Assembly-CSharp
+        m_MethodName: ShowPositive
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 930171859}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!212 &851736082
 SpriteRenderer:
@@ -3671,7 +3917,7 @@ MonoBehaviour:
   isBlocked: 1
   sinkDistance: 30
   sinkDuration: 0.7
-  clickSfx: {fileID: 0}
+  clickSfx: {fileID: 8300000, guid: b013ed3d114cbac438bd5c9ee10b16e1, type: 3}
   OnDisappeared:
     m_PersistentCalls:
       m_Calls: []
@@ -3706,6 +3952,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2076235288}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &915104777 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8296389782273395508, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
+  m_PrefabInstance: {fileID: 183571545}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc839a875eb98c146913f00dfcfe0b63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &930171859 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4377728238706161283, guid: 378a4b5d9279982438f18748af103867, type: 3}
+  m_PrefabInstance: {fileID: 1384257330}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &930171860 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+  m_PrefabInstance: {fileID: 1384257330}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &931966418
 GameObject:
   m_ObjectHideFlags: 0
@@ -3806,7 +4073,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 931966420}
   revealMaterial: {fileID: 2100000, guid: b2154b01693323541975914ebc6342c2, type: 2}
   textureSize: 256
-  brushRadius: 15
+  brushRadius: 25
   threshold: 0.85
   eraseMode: 1
   paintEnabled: 0
@@ -3849,6 +4116,30 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 613985181}
+        m_TargetAssemblyTypeName: Satisgame.EmojiControl, Assembly-CSharp
+        m_MethodName: ShowPositive
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 370654789}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &974403887
 GameObject:
@@ -4060,7 +4351,7 @@ MonoBehaviour:
   - {fileID: 759855610}
   audioSource: {fileID: 995229903}
   particleObject: {fileID: 0}
-  volume: 0.4
+  volume: 0.2
 --- !u!1 &1034762523
 GameObject:
   m_ObjectHideFlags: 0
@@ -4191,7 +4482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tool: {fileID: 335749603}
   warningZones:
-  - {fileID: 0}
+  - {fileID: 759855610}
   OnWrongUsage:
     m_PersistentCalls:
       m_Calls:
@@ -4830,7 +5121,7 @@ MonoBehaviour:
   isBlocked: 1
   sinkDistance: 30
   sinkDuration: 0.7
-  clickSfx: {fileID: 0}
+  clickSfx: {fileID: 8300000, guid: b013ed3d114cbac438bd5c9ee10b16e1, type: 3}
   OnDisappeared:
     m_PersistentCalls:
       m_Calls: []
@@ -5531,9 +5822,9 @@ MonoBehaviour:
   minY: -12
   maxY: 12
   enablePeel: 1
-  pickSfx: {fileID: 0}
-  peelSnapSfx: {fileID: 0}
-  flyUpSfx: {fileID: 0}
+  pickSfx: {fileID: 8300000, guid: 2864dc539b5f8414188e4d2523d93302, type: 3}
+  peelSnapSfx: {fileID: 8300000, guid: bcaeb0704ac883e42800f87e4c19e739, type: 3}
+  flyUpSfx: {fileID: 8300000, guid: fccd66a1fefbb854199299b515640f02, type: 3}
   dropInBinSfx: {fileID: 0}
   minLayer: 0
   dragOffsetY: 1
@@ -5692,7 +5983,7 @@ MonoBehaviour:
   isBlocked: 1
   sinkDistance: 30
   sinkDuration: 0.7
-  clickSfx: {fileID: 0}
+  clickSfx: {fileID: 8300000, guid: b013ed3d114cbac438bd5c9ee10b16e1, type: 3}
   OnDisappeared:
     m_PersistentCalls:
       m_Calls: []
@@ -5846,9 +6137,9 @@ MonoBehaviour:
   minY: -12
   maxY: 12
   enablePeel: 1
-  pickSfx: {fileID: 0}
-  peelSnapSfx: {fileID: 0}
-  flyUpSfx: {fileID: 0}
+  pickSfx: {fileID: 8300000, guid: 2864dc539b5f8414188e4d2523d93302, type: 3}
+  peelSnapSfx: {fileID: 8300000, guid: bcaeb0704ac883e42800f87e4c19e739, type: 3}
+  flyUpSfx: {fileID: 8300000, guid: fccd66a1fefbb854199299b515640f02, type: 3}
   dropInBinSfx: {fileID: 0}
   minLayer: 0
   dragOffsetY: 1
@@ -6007,10 +6298,94 @@ MonoBehaviour:
   isBlocked: 1
   sinkDistance: 30
   sinkDuration: 0.7
-  clickSfx: {fileID: 0}
+  clickSfx: {fileID: 8300000, guid: b013ed3d114cbac438bd5c9ee10b16e1, type: 3}
   OnDisappeared:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1001 &1384257330
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 386047191}
+    m_Modifications:
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9999985
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0017452955
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312771128910977050, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4377728238706161283, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_Name
+      value: Sparks
+      objectReference: {fileID: 0}
+    - target: {fileID: 4377728238706161283, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968536343018374681, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3976734756123119696, guid: 378a4b5d9279982438f18748af103867, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 699373851}
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 378a4b5d9279982438f18748af103867, type: 3}
 --- !u!1 &1450566871
 GameObject:
   m_ObjectHideFlags: 0
@@ -6193,9 +6568,9 @@ MonoBehaviour:
   minY: -12
   maxY: 12
   enablePeel: 1
-  pickSfx: {fileID: 0}
-  peelSnapSfx: {fileID: 0}
-  flyUpSfx: {fileID: 0}
+  pickSfx: {fileID: 8300000, guid: 2864dc539b5f8414188e4d2523d93302, type: 3}
+  peelSnapSfx: {fileID: 8300000, guid: bcaeb0704ac883e42800f87e4c19e739, type: 3}
+  flyUpSfx: {fileID: 8300000, guid: fccd66a1fefbb854199299b515640f02, type: 3}
   dropInBinSfx: {fileID: 0}
   minLayer: 0
   dragOffsetY: 1
@@ -6205,6 +6580,17 @@ MonoBehaviour:
   OnTrashed:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1479589372 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7764283666492332743, guid: ad1507b6fdedb9b4b82626936ba78501, type: 3}
+  m_PrefabInstance: {fileID: 183571545}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f71596b0289eb4a9d0257705a2f945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1483513681
 GameObject:
   m_ObjectHideFlags: 0
@@ -6355,9 +6741,9 @@ MonoBehaviour:
   minY: -12
   maxY: 12
   enablePeel: 1
-  pickSfx: {fileID: 0}
-  peelSnapSfx: {fileID: 0}
-  flyUpSfx: {fileID: 0}
+  pickSfx: {fileID: 8300000, guid: 2864dc539b5f8414188e4d2523d93302, type: 3}
+  peelSnapSfx: {fileID: 8300000, guid: bcaeb0704ac883e42800f87e4c19e739, type: 3}
+  flyUpSfx: {fileID: 8300000, guid: fccd66a1fefbb854199299b515640f02, type: 3}
   dropInBinSfx: {fileID: 0}
   minLayer: 0
   dragOffsetY: 1
@@ -6547,7 +6933,7 @@ MonoBehaviour:
   isBlocked: 1
   sinkDistance: 30
   sinkDuration: 0.7
-  clickSfx: {fileID: 0}
+  clickSfx: {fileID: 8300000, guid: b013ed3d114cbac438bd5c9ee10b16e1, type: 3}
   OnDisappeared:
     m_PersistentCalls:
       m_Calls: []
@@ -6768,9 +7154,9 @@ MonoBehaviour:
   minY: -12
   maxY: 12
   enablePeel: 1
-  pickSfx: {fileID: 0}
-  peelSnapSfx: {fileID: 0}
-  flyUpSfx: {fileID: 0}
+  pickSfx: {fileID: 8300000, guid: 2864dc539b5f8414188e4d2523d93302, type: 3}
+  peelSnapSfx: {fileID: 8300000, guid: bcaeb0704ac883e42800f87e4c19e739, type: 3}
+  flyUpSfx: {fileID: 8300000, guid: fccd66a1fefbb854199299b515640f02, type: 3}
   dropInBinSfx: {fileID: 0}
   minLayer: 0
   dragOffsetY: 1
@@ -7113,9 +7499,9 @@ MonoBehaviour:
   minY: -12
   maxY: 12
   enablePeel: 1
-  pickSfx: {fileID: 0}
-  peelSnapSfx: {fileID: 0}
-  flyUpSfx: {fileID: 0}
+  pickSfx: {fileID: 8300000, guid: 2864dc539b5f8414188e4d2523d93302, type: 3}
+  peelSnapSfx: {fileID: 8300000, guid: bcaeb0704ac883e42800f87e4c19e739, type: 3}
+  flyUpSfx: {fileID: 8300000, guid: fccd66a1fefbb854199299b515640f02, type: 3}
   dropInBinSfx: {fileID: 0}
   minLayer: 0
   dragOffsetY: 1
@@ -7255,7 +7641,7 @@ MonoBehaviour:
   - {fileID: 759855610}
   audioSource: {fileID: 1761796788}
   particleObject: {fileID: 1778980480}
-  volume: 0.4
+  volume: 0.2
 --- !u!4 &1761796790
 Transform:
   m_ObjectHideFlags: 0
@@ -7478,7 +7864,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1780523237}
   revealMaterial: {fileID: 2100000, guid: 9dcd069d03f9fb44ea08c168b56eefb6, type: 2}
   textureSize: 256
-  brushRadius: 15
+  brushRadius: 25
   threshold: 0.85
   eraseMode: 0
   paintEnabled: 0
@@ -7550,6 +7936,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: LTPHUONG.RevealImage, Assembly-CSharp
         m_MethodName: EnablePaint
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 613985181}
+        m_TargetAssemblyTypeName: Satisgame.EmojiControl, Assembly-CSharp
+        m_MethodName: ShowPositive
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7712,7 +8110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tool: {fileID: 1180637664}
   warningZones:
-  - {fileID: 0}
+  - {fileID: 759855610}
   OnWrongUsage:
     m_PersistentCalls:
       m_Calls:
@@ -7965,6 +8363,7 @@ MonoBehaviour:
   - {fileID: 1302978469}
   - {fileID: 1571088039}
   - {fileID: 7997843}
+  completeSfx: {fileID: 8300000, guid: d17cfd314dde79f458aab10eaba9ea0a, type: 3}
   OnAllDisappeared:
     m_PersistentCalls:
       m_Calls:
@@ -8226,9 +8625,9 @@ MonoBehaviour:
   minY: -12
   maxY: 12
   enablePeel: 1
-  pickSfx: {fileID: 0}
-  peelSnapSfx: {fileID: 0}
-  flyUpSfx: {fileID: 0}
+  pickSfx: {fileID: 8300000, guid: 2864dc539b5f8414188e4d2523d93302, type: 3}
+  peelSnapSfx: {fileID: 8300000, guid: bcaeb0704ac883e42800f87e4c19e739, type: 3}
+  flyUpSfx: {fileID: 8300000, guid: fccd66a1fefbb854199299b515640f02, type: 3}
   dropInBinSfx: {fileID: 0}
   minLayer: 0
   dragOffsetY: 1

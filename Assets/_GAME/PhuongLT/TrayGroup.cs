@@ -7,6 +7,7 @@ namespace LTPHUONG
     public class TrayGroup : MonoBehaviour
     {
         [SerializeField] private List<Tray> trays;
+        [SerializeField] private AudioClip completeSfx;
 
         public UnityEvent OnAllDisappeared;
 
@@ -36,6 +37,7 @@ namespace LTPHUONG
             foreach (var tray in trays)
                 if (tray != null && !tray.IsGone) return;
 
+            if (completeSfx != null) AudioManager.PlaySFX(completeSfx);
             OnAllDisappeared?.Invoke();
         }
     }
