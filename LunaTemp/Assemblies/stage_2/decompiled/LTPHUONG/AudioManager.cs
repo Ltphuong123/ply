@@ -37,7 +37,7 @@ namespace LTPHUONG
 		{
 			if (clip != null && sfxSource != null)
 			{
-				sfxSource.PlayOneShot(clip, 0.2f);
+				sfxSource.PlayOneShot(clip, 0.35f);
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace LTPHUONG
 		{
 			if (clip != null && sfxSource != null)
 			{
-				sfxSource.PlayOneShot(clip, 0.2f);
+				sfxSource.PlayOneShot(clip, 0.35f);
 			}
 		}
 
@@ -56,7 +56,7 @@ namespace LTPHUONG
 			if (!(clip == null) && !(sfxSource == null))
 			{
 				sfxSource.pitch = Random.Range(minPitch, maxPitch);
-				sfxSource.PlayOneShot(clip, 0.2f);
+				sfxSource.PlayOneShot(clip, 0.35f);
 				sfxSource.pitch = 1f;
 			}
 		}

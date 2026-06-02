@@ -9,6 +9,9 @@ namespace LTPHUONG
 		[SerializeField]
 		private List<GarbageItem> items = new List<GarbageItem>();
 
+		[SerializeField]
+		private AudioClip completeSfx;
+
 		public UnityEvent OnAllTrashed;
 
 		private int trashedCount;
@@ -28,14 +31,19 @@ namespace LTPHUONG
 
 		private void OnItemTrashed()
 		{
-			if (!isCompleted)
+			if (isCompleted)
 			{
-				trashedCount++;
-				if (trashedCount >= items.Count)
+				return;
+			}
+			trashedCount++;
+			if (trashedCount >= items.Count)
+			{
+				isCompleted = true;
+				if (completeSfx != null)
 				{
-					isCompleted = true;
-					OnAllTrashed?.Invoke();
+					AudioManager.PlaySFX(completeSfx);
 				}
+				OnAllTrashed?.Invoke();
 			}
 		}
 

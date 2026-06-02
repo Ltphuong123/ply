@@ -8,13 +8,11 @@ namespace LTPHUONG
 	{
 		private enum Phase
 		{
-			DrainCap,
 			Valve,
 			WashVegetables,
 			BasketVegetables,
 			PlaceFoodOnBoard,
 			CutFood,
-			ReturnFood,
 			CallToAction,
 			Done
 		}
@@ -31,14 +29,7 @@ namespace LTPHUONG
 		[SerializeField]
 		private float idleTimeout = 3f;
 
-		[Header("Step 1 - Drain Cap")]
-		[SerializeField]
-		private SinkDrainCap drainCap;
-
-		[SerializeField]
-		private Transform drainPoint;
-
-		[Header("Step 2 - Valve")]
+		[Header("Step 1 - Valve")]
 		[SerializeField]
 		private SinkValve valve;
 
@@ -53,15 +44,12 @@ namespace LTPHUONG
 		[SerializeField]
 		private Transform basketPoint;
 
-		[Header("Step 5 & 7 - Cat Thuc An")]
+		[Header("Step 5 & 6 - Cat Thuc An")]
 		[SerializeField]
 		private CuttingFood[] cuttingFoods;
 
 		[SerializeField]
 		private Transform boardZone;
-
-		[SerializeField]
-		private Transform plateZone;
 
 		[Header("Step 6 - Dao")]
 		[SerializeField]
@@ -74,7 +62,7 @@ namespace LTPHUONG
 		[SerializeField]
 		private Transform ctaTo;
 
-		private Phase currentPhase = Phase.DrainCap;
+		private Phase currentPhase = Phase.Valve;
 
 		private float lastActivityTime;
 
@@ -83,6 +71,8 @@ namespace LTPHUONG
 		private bool hasFirstInteraction;
 
 		private bool enableEveryInteraction;
+
+		private int currentFoodIndex = 0;
 
 		private void Start()
 		{
@@ -110,6 +100,8 @@ namespace LTPHUONG
 			if (!wasDragging && isDragging)
 			{
 				tutorialHand?.Stop();
+				CancelInvoke("ShowCurrentPhase");
+				CancelInvoke("ShowCallToAction");
 			}
 			if (isDragging || Input.GetMouseButtonDown(0))
 			{
@@ -156,12 +148,6 @@ namespace LTPHUONG
 		{
 			switch (currentPhase)
 			{
-			case Phase.DrainCap:
-				if (drainCap != null && drainCap.IsPlugged)
-				{
-					GoToPhase(Phase.Valve);
-				}
-				break;
 			case Phase.Valve:
 				if (valve != null && valve.IsOn)
 				{
@@ -181,21 +167,27 @@ namespace LTPHUONG
 				}
 				break;
 			case Phase.PlaceFoodOnBoard:
-				if (AllFoodsPlacedOnBoard())
+				if (CurrentFoodOnBoard())
 				{
 					GoToPhase(Phase.CutFood);
 				}
 				break;
 			case Phase.CutFood:
-				if (AllFoodsCut())
+				if (!CurrentFoodReturned())
 				{
-					GoToPhase(Phase.ReturnFood);
+					break;
 				}
-				break;
-			case Phase.ReturnFood:
-				if (AllFoodsReturned())
+				currentFoodIndex++;
+				if (currentFoodIndex >= cuttingFoods.Length)
 				{
-					GoToPhase(Phase.CallToAction);
+					if (AllStepsDone())
+					{
+						GoToPhase(Phase.CallToAction);
+					}
+				}
+				else
+				{
+					GoToPhase(Phase.PlaceFoodOnBoard);
 				}
 				break;
 			}
@@ -204,19 +196,37 @@ namespace LTPHUONG
 		private void GoToPhase(Phase phase)
 		{
 			currentPhase = phase;
+			tutorialHand?.Stop();
+			CancelInvoke("ShowCurrentPhase");
+			CancelInvoke("ShowCallToAction");
 			switch (phase)
 			{
 			case Phase.Done:
-				tutorialHand?.Stop();
 				base.enabled = false;
-				break;
+				return;
 			case Phase.CallToAction:
-				ShowCallToAction();
-				break;
-			default:
-				ShowCurrentPhase();
+				Invoke("ShowCallToAction", 1f);
+				return;
+			case Phase.PlaceFoodOnBoard:
+			{
+				CuttingFood f = CurrentFood();
+				if (f != null && f.State == CuttingFood.FoodState.ReturnedToPlate)
+				{
+					currentFoodIndex++;
+					int num = currentFoodIndex;
+					CuttingFood[] array = cuttingFoods;
+					GoToPhase((num >= ((array != null) ? array.Length : 0) && AllStepsDone()) ? Phase.CallToAction : Phase.PlaceFoodOnBoard);
+					return;
+				}
+				if (f != null && f.IsOnBoard)
+				{
+					GoToPhase(Phase.CutFood);
+					return;
+				}
 				break;
 			}
+			}
+			Invoke("ShowCurrentPhase", 1f);
 		}
 
 		private void ShowCallToAction()
@@ -237,12 +247,6 @@ namespace LTPHUONG
 			lastActivityTime = Time.time;
 			switch (currentPhase)
 			{
-			case Phase.DrainCap:
-				if (drainCap != null && drainPoint != null)
-				{
-					tutorialHand.PlayDrag(drainCap.TF, drainPoint);
-				}
-				break;
 			case Phase.Valve:
 				if (valve != null)
 				{
@@ -269,28 +273,19 @@ namespace LTPHUONG
 			}
 			case Phase.PlaceFoodOnBoard:
 			{
-				CuttingFood notOnBoard = FirstFoodOnPlate();
-				if (notOnBoard != null && boardZone != null)
+				CuttingFood currentFood = CurrentFood();
+				if (currentFood != null && boardZone != null)
 				{
-					tutorialHand.PlayDrag(notOnBoard.TF, boardZone);
+					tutorialHand.PlayDrag(currentFood.TF, boardZone);
 				}
 				break;
 			}
 			case Phase.CutFood:
 			{
-				CuttingFood foodToCut = FirstFoodOnBoardNotCut();
+				CuttingFood foodToCut = CurrentFood();
 				if (knife != null && foodToCut != null && !knife.IsBlocked())
 				{
 					tutorialHand.PlayDrag(knife.TF, foodToCut.TF);
-				}
-				break;
-			}
-			case Phase.ReturnFood:
-			{
-				CuttingFood notReturned = FirstFoodNotReturned();
-				if (notReturned != null && plateZone != null)
-				{
-					tutorialHand.PlayDrag(notReturned.TF, plateZone);
 				}
 				break;
 			}
@@ -331,38 +326,9 @@ namespace LTPHUONG
 			return true;
 		}
 
-		private bool AllFoodsPlacedOnBoard()
+		private bool AllStepsDone()
 		{
-			if (cuttingFoods == null)
-			{
-				return true;
-			}
-			CuttingFood[] array = cuttingFoods;
-			foreach (CuttingFood f in array)
-			{
-				if (f != null && f.State == CuttingFood.FoodState.OnPlate)
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-
-		private bool AllFoodsCut()
-		{
-			if (cuttingFoods == null)
-			{
-				return true;
-			}
-			CuttingFood[] array = cuttingFoods;
-			foreach (CuttingFood f in array)
-			{
-				if (f != null && !f.IsCut)
-				{
-					return false;
-				}
-			}
-			return true;
+			return AllVegetablesWashed() && AllVegetablesInBasket() && AllFoodsReturned();
 		}
 
 		private bool AllFoodsReturned()
@@ -380,6 +346,27 @@ namespace LTPHUONG
 				}
 			}
 			return true;
+		}
+
+		private CuttingFood CurrentFood()
+		{
+			if (cuttingFoods == null || currentFoodIndex >= cuttingFoods.Length)
+			{
+				return null;
+			}
+			return cuttingFoods[currentFoodIndex];
+		}
+
+		private bool CurrentFoodOnBoard()
+		{
+			CuttingFood f = CurrentFood();
+			return f != null && f.IsOnBoard;
+		}
+
+		private bool CurrentFoodReturned()
+		{
+			CuttingFood f = CurrentFood();
+			return f != null && f.State == CuttingFood.FoodState.ReturnedToPlate;
 		}
 
 		private SinkVegetable FirstUnwashedVeg()
@@ -411,57 +398,6 @@ namespace LTPHUONG
 				if (v != null && v.IsWashed && !v.IsInBasket)
 				{
 					return v;
-				}
-			}
-			return null;
-		}
-
-		private CuttingFood FirstFoodOnPlate()
-		{
-			if (cuttingFoods == null)
-			{
-				return null;
-			}
-			CuttingFood[] array = cuttingFoods;
-			foreach (CuttingFood f in array)
-			{
-				if (f != null && f.State == CuttingFood.FoodState.OnPlate)
-				{
-					return f;
-				}
-			}
-			return null;
-		}
-
-		private CuttingFood FirstFoodOnBoardNotCut()
-		{
-			if (cuttingFoods == null)
-			{
-				return null;
-			}
-			CuttingFood[] array = cuttingFoods;
-			foreach (CuttingFood f in array)
-			{
-				if (f != null && f.IsOnBoard && !f.IsCut)
-				{
-					return f;
-				}
-			}
-			return null;
-		}
-
-		private CuttingFood FirstFoodNotReturned()
-		{
-			if (cuttingFoods == null)
-			{
-				return null;
-			}
-			CuttingFood[] array = cuttingFoods;
-			foreach (CuttingFood f in array)
-			{
-				if (f != null && f.State != CuttingFood.FoodState.ReturnedToPlate)
-				{
-					return f;
 				}
 			}
 			return null;

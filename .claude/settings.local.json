@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(Get-ChildItem -Path \"D:\\\\game\\\\ply\\\\Assets\\\\_GAME\\\\PhuongLT\" -Recurse -Name)"
+      "Bash(Get-ChildItem -Path \"D:\\\\game\\\\ply\\\\Assets\\\\_GAME\\\\PhuongLT\" -Recurse -Name)",
+      "Bash(not exist *)"
     ]
   }
 }

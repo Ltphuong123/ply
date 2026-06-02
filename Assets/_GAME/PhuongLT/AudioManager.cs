@@ -29,20 +29,20 @@ namespace LTPHUONG
         [Preserve] public static void PlaySFX(AudioClip clip)
         {
             if (clip != null && sfxSource != null)
-                sfxSource.PlayOneShot(clip,0.2f);
+                sfxSource.PlayOneShot(clip,0.35f);
         }
 
         [Preserve] public static void PlaySFX(AudioClip clip, float volume)
         {
             if (clip != null && sfxSource != null)
-                sfxSource.PlayOneShot(clip, 0.2f);
+                sfxSource.PlayOneShot(clip, 0.35f);
         }
 
         [Preserve] public static void PlaySfxRandomPitch(AudioClip clip, float volume = 1f, float minPitch = 0.9f, float maxPitch = 1.1f)
         {
             if (clip == null || sfxSource == null) return;
             sfxSource.pitch = Random.Range(minPitch, maxPitch);
-            sfxSource.PlayOneShot(clip, 0.2f);
+            sfxSource.PlayOneShot(clip, 0.35f);
             sfxSource.pitch = 1f;
         }
 

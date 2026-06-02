@@ -246,6 +246,24 @@ namespace LTPHUONG
 			}
 		}
 
+		public void AutoFlyToNearestBin()
+		{
+			if (!isFlying && !IsTrashed)
+			{
+				TrashBin bin = TrashBin.FindClosestBin(tf.position);
+				if (!(bin == null))
+				{
+					KillTweens();
+					StopShake();
+					isPeeled = true;
+					tf.localScale = originalScale;
+					tf.rotation = originalRotation;
+					BringToFront();
+					FlyToBin(bin);
+				}
+			}
+		}
+
 		private void FlyToBin(TrashBin bin)
 		{
 			isFlying = true;

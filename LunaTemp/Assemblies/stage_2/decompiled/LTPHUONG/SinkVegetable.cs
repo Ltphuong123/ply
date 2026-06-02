@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace LTPHUONG
 {
@@ -53,6 +54,8 @@ namespace LTPHUONG
 
 		[SerializeField]
 		private float floatDuration = 2f;
+
+		public UnityEvent OnWashedAndInBasket;
 
 		private Vector3 originalPosition;
 
@@ -196,6 +199,7 @@ namespace LTPHUONG
 				AudioManager.PlaySFX(basketSfx);
 			}
 			PlayLandInBasket();
+			OnWashedAndInBasket?.Invoke();
 		}
 
 		private void PlayLandInBasket()

@@ -25,13 +25,6 @@ namespace LTPHUONG
 		[SerializeField]
 		private float boardRadius = 2f;
 
-		[Header("Plate Zone")]
-		[SerializeField]
-		private Transform plateZone;
-
-		[SerializeField]
-		private float plateZoneRadius = 2f;
-
 		[Header("Effects")]
 		[SerializeField]
 		private ParticleSystem cutParticle;
@@ -50,6 +43,7 @@ namespace LTPHUONG
 
 		private bool isReturning;
 
+		[SerializeField]
 		private Vector3 platePosition;
 
 		public bool IsCut { get; private set; }
@@ -62,7 +56,10 @@ namespace LTPHUONG
 		protected override void Awake()
 		{
 			base.Awake();
-			platePosition = tf.position;
+			if (platePosition == Vector3.zero)
+			{
+				platePosition = tf.position;
+			}
 			RefreshCutState(0);
 		}
 
@@ -73,16 +70,22 @@ namespace LTPHUONG
 
 		public void ReceiveCut(int cutIndex, Vector3 cutWorldPos)
 		{
-			if (!IsCut)
+			if (IsCut)
 			{
-				SpawnParticle(cutWorldPos);
-				PlayShake();
-				RefreshCutState(cutIndex + 1);
-				if (cutIndex >= totalCuts - 1)
+				return;
+			}
+			SpawnParticle(cutWorldPos);
+			PlayShake();
+			RefreshCutState(cutIndex + 1);
+			if (cutIndex >= totalCuts - 1)
+			{
+				IsCut = true;
+				OnAllCutsDone?.Invoke();
+				MoveToPlate(delegate
 				{
-					IsCut = true;
-					OnAllCutsDone?.Invoke();
-				}
+					State = FoodState.ReturnedToPlate;
+					OnReturnedToPlate?.Invoke();
+				});
 			}
 		}
 
@@ -92,7 +95,7 @@ namespace LTPHUONG
 			{
 				return true;
 			}
-			if (State == FoodState.OnBoard && !IsCut)
+			if (State == FoodState.OnBoard)
 			{
 				return true;
 			}
@@ -118,14 +121,9 @@ namespace LTPHUONG
 
 		protected override void OnDragEnd(Vector3 position)
 		{
-			switch (State)
+			if (State == FoodState.OnPlate)
 			{
-			case FoodState.OnPlate:
 				TryPlaceOnBoard();
-				break;
-			case FoodState.OnBoard:
-				TryReturnToPlate();
-				break;
 			}
 		}
 
@@ -133,13 +131,17 @@ namespace LTPHUONG
 		{
 			if (boardZone != null && Vector3.Distance(tf.position, boardZone.position) <= boardRadius)
 			{
-				tf.DOScale(Vector3.one, 0.1f).SetEase(Ease.OutQuad);
 				if (placeSfx != null)
 				{
 					AudioManager.PlaySFX(placeSfx);
 				}
 				State = FoodState.OnBoard;
-				OnPlacedOnBoard?.Invoke();
+				tf.DOKill();
+				DOTween.Sequence().Append(tf.DOMove(boardZone.position, 0.25f).SetEase(Ease.OutQuad)).Join(tf.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutQuad))
+					.OnComplete(delegate
+					{
+						OnPlacedOnBoard?.Invoke();
+					});
 			}
 			else
 			{
@@ -147,27 +149,12 @@ namespace LTPHUONG
 			}
 		}
 
-		private void TryReturnToPlate()
-		{
-			if (plateZone != null && Vector3.Distance(tf.position, plateZone.position) <= plateZoneRadius)
-			{
-				MoveToPlate(delegate
-				{
-					State = FoodState.ReturnedToPlate;
-					OnReturnedToPlate?.Invoke();
-				});
-			}
-			else
-			{
-				tf.DOScale(Vector3.one, 0.1f).SetEase(Ease.OutQuad);
-			}
-		}
-
 		private void MoveToPlate(Action onComplete)
 		{
 			isReturning = true;
 			tf.DOKill();
-			DOTween.Sequence().Append(tf.DOMove(platePosition, 0.3f).SetEase(Ease.OutQuad)).Join(tf.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutQuad))
+			DOTween.Sequence().AppendInterval(0.5f).Append(tf.DOMove(platePosition, 0.35f).SetEase(Ease.OutQuad))
+				.Join(tf.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutQuad))
 				.AppendCallback(delegate
 				{
 					if (placeSfx != null)

@@ -94,10 +94,13 @@ namespace LTPHUONG
             bool nearBoard = boardZone != null && Vector3.Distance(tf.position, boardZone.position) <= boardRadius;
             if (nearBoard)
             {
-                tf.DOScale(Vector3.one, 0.1f).SetEase(Ease.OutQuad);
                 if (placeSfx != null) AudioManager.PlaySFX(placeSfx);
                 State = FoodState.OnBoard;
-                OnPlacedOnBoard?.Invoke();
+                tf.DOKill();
+                DOTween.Sequence()
+                    .Append(tf.DOMove(boardZone.position, 0.25f).SetEase(Ease.OutQuad))
+                    .Join(tf.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutQuad))
+                    .OnComplete(() => OnPlacedOnBoard?.Invoke());
             }
             else
             {
