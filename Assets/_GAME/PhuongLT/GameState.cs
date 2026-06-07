@@ -23,8 +23,8 @@ namespace LTPHUONG
         public void gotoStore()
         {
             Debug.Log("Goto Store");
-            Luna.Unity.LifeCycle.GameEnded();
-            Luna.Unity.Playable.InstallFullGame();
+            // Luna.Unity.LifeCycle.GameEnded();
+            // Luna.Unity.Playable.InstallFullGame();
         }
 
         [Preserve] public void BlockInteract() => IsAllowInteract = false;
